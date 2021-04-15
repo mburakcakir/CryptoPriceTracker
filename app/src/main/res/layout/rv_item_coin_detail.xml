@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="coin"
+            type="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_min">
+
+            <ImageView
+                android:id="@+id/imgCoin"
+                loadImageFromUrl="@{coin.image}"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txtCoinName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_min"
+                android:text="@{coin.name}"
+                android:textSize="@dimen/text_size_big"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/imgCoin"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/coin_name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinPriceChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_min"
+                android:text="@{Double.toString(coin.price_change_24h) + `%`}"
+                android:textSize="@dimen/text_size_min"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/imgCoin"
+                app:layout_constraintTop_toBottomOf="@id/txtCoinName"
+                tools:text="@string/coin_price_change" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinCurrentPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_min"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="@{Double.toString(coin.current_price) + `$`}"
+                app:layout_constraintEnd_toStartOf="@id/imgRightArrow"
+                app:layout_constraintTop_toBottomOf="@id/imgRightArrow"
+                app:layout_constraintTop_toTopOf="@id/imgRightArrow"
+                tools:text="@string/coin_current_price" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgRightArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_min"
+                android:background="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

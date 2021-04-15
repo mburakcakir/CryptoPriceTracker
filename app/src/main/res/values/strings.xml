@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CryptoPriceTracker</string>
+    <string name="loading">Loading</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="error_result">Error Data</string>
+    <string name="coin_name">Coin Name</string>
+    <string name="coin_price_change">Coin Price Change</string>
+    <string name="coin_current_price">Coin Current Price</string>
 </resources>
