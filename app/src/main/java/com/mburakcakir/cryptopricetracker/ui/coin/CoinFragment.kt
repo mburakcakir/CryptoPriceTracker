@@ -7,14 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
+import com.mburakcakir.cryptopricetracker.utils.NetworkController
 import com.mburakcakir.cryptopricetracker.utils.Status
 
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
-
     private var coinAdapter = CoinAdapter()
-    private lateinit var coinViewModel: CoinViewModel
+
+    private val coinViewModel: CoinViewModel by lazy {
+        ViewModelProvider(this).get(CoinViewModel::class.java)
+    }
+
+    private val networkController: NetworkController by lazy {
+        NetworkController(requireContext()).apply {
+            startNetworkCallback()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,26 +39,43 @@ class CoinFragment : Fragment() {
     }
 
     private fun init() {
-        coinViewModel = ViewModelProvider(this).get(CoinViewModel::class.java)
-        binding.rvCoinList.adapter = coinAdapter
+        checkInternetConnection()
 
+        observeCoins()
+
+        setAdapter()
+
+
+    }
+
+    private fun setAdapter() {
+        binding.rvCoinList.adapter = coinAdapter
+    }
+
+    private fun observeCoins() {
         coinViewModel.coinInfo.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> coinAdapter.submitList(it.data)
             }
             binding.state = CoinViewState(it.status)
         }
+    }
 
+    private fun checkStationDataAndSetState() {
+        if (coinViewModel.coinInfo.value == null)
+            coinViewModel.getAllCoins()
+        else {
+            binding.state = CoinViewState(Status.SUCCESS)
+        }
+    }
 
-//        coinViewModel.result.observe(viewLifecycleOwner) { result ->
-//            when {
-//                result.success != null -> getString(result.success)
-//                result.loading != null -> getString(result.loading)
-//                result.error != null -> getString(result.error)
-//                else ->getString(R.string.error_result)
-//            }.let { message ->
-//                requireContext() toast message
-//            }
-//        }
+    private fun checkInternetConnection() {
+
+        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
+            if (isInternetConnected)
+                checkStationDataAndSetState()
+            else
+                binding.state = CoinViewState(Status.ERROR)
+        }
     }
 }

@@ -30,14 +30,14 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
         getAllCoins()
     }
 
-    private fun getAllCoins() = viewModelScope.launch {
+    fun getAllCoins() = viewModelScope.launch {
 
         coinRepository.getAllCoins()
             .onStart {
                 _result.value = Result(loading = R.string.loading)
             }
             .catch {
-                _result.value = Result(error = R.string.loading)
+                it.message
             }
             .collect {
                 _coinInfo.value = it
