@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="baseCoin"
+            type="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
+
+        <variable
+            name="coinDetail"
+            type="com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detail.CoinDetailFragment">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgIconImage"
+            loadImageFromUrl="@{baseCoin.image}"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtCoinName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:maxLines="10"
+            android:text="@{`Name:` + baseCoin.name}"
+            app:layout_constraintTop_toBottomOf="@id/imgIconImage" />
+
+        <TextView
+            android:id="@+id/txtCoinDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:maxLines="10"
+            android:text="@{`Description:` + coinDetail.description.en}"
+            app:layout_constraintTop_toBottomOf="@id/txtCoinName" />
+
+        <TextView
+            android:id="@+id/txtCoinHashingAlgorithm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@{`Hashing Algorithm:` + coinDetail.hashing_algorithm}"
+            app:layout_constraintTop_toBottomOf="@id/txtCoinDescription" />
+
+        <TextView
+            android:id="@+id/txtCoinCurrentPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@{`Current Price:` + Double.toString(baseCoin.current_price)}"
+            app:layout_constraintTop_toBottomOf="@id/txtCoinHashingAlgorithm" />
+
+        <TextView
+            android:id="@+id/txtCoinPriceChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@{`Price Change:` + Double.toString(baseCoin.price_change_24h)}"
+            app:layout_constraintTop_toBottomOf="@id/txtCoinCurrentPrice" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
