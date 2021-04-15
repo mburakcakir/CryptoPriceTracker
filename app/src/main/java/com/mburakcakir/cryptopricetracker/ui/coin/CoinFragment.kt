@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
 import com.mburakcakir.cryptopricetracker.utils.NetworkController
 import com.mburakcakir.cryptopricetracker.utils.Status
+import com.mburakcakir.cryptopricetracker.utils.navigate
 
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
@@ -39,21 +40,25 @@ class CoinFragment : Fragment() {
     }
 
     private fun init() {
-        checkInternetConnection()
 
+        checkInternetConnection()
+        setAdapter()
         observeCoins()
 
-        setAdapter()
 
 
     }
 
     private fun setAdapter() {
         binding.rvCoinList.adapter = coinAdapter
+
+        coinAdapter.setCoinOnClickListener {
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it))
+        }
     }
 
     private fun observeCoins() {
-        coinViewModel.coinInfo.observe(viewLifecycleOwner) {
+        coinViewModel.allCoins.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> coinAdapter.submitList(it.data)
             }
@@ -62,7 +67,7 @@ class CoinFragment : Fragment() {
     }
 
     private fun checkStationDataAndSetState() {
-        if (coinViewModel.coinInfo.value == null)
+        if (coinViewModel.allCoins.value == null)
             coinViewModel.getAllCoins()
         else {
             binding.state = CoinViewState(Status.SUCCESS)

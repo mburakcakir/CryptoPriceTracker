@@ -10,9 +10,9 @@ import com.mburakcakir.cryptopricetracker.databinding.RvItemCoinDetailBinding
 
 class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) {
 
-    private lateinit var coinOnClick: (List<CoinMarketItem>) -> Unit
+    private lateinit var coinOnClick: (CoinMarketItem) -> Unit
 
-    fun setCoinOnClickListener(coinOnClick: (List<CoinMarketItem>) -> Unit) {
+    fun setCoinOnClickListener(coinOnClick: (CoinMarketItem) -> Unit) {
         this.coinOnClick = coinOnClick
     }
 
@@ -22,7 +22,7 @@ class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) 
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), coinOnClick
         )
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) =
@@ -31,10 +31,15 @@ class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) 
 }
 
 class CoinViewHolder(
-    private val binding: RvItemCoinDetailBinding
+    private val binding: RvItemCoinDetailBinding,
+    private val coinOnClick: (CoinMarketItem) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(coinMarketItem: CoinMarketItem) {
         binding.coin = coinMarketItem
+
+        itemView.setOnClickListener {
+            coinOnClick(coinMarketItem)
+        }
     }
 }
 

@@ -1,7 +1,6 @@
 package com.mburakcakir.cryptopricetracker.ui.coin
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,6 +8,7 @@ import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.data.repository.CoinRepository
 import com.mburakcakir.cryptopricetracker.data.repository.CoinRepositoryImpl
+import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.utils.Resource
 import com.mburakcakir.cryptopricetracker.utils.Result
 import kotlinx.coroutines.flow.catch
@@ -16,22 +16,18 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class CoinViewModel(application: Application) : AndroidViewModel(application) {
+class CoinViewModel(application: Application) : BaseViewModel(application) {
 
     private val coinRepository: CoinRepository = CoinRepositoryImpl()
 
-    private val _result = MutableLiveData<Result>()
-    val result: LiveData<Result> = _result
-
-    private val _coinInfo = MutableLiveData<Resource<List<CoinMarketItem>>>()
-    val coinInfo: LiveData<Resource<List<CoinMarketItem>>> = _coinInfo
+    private val _allCoins = MutableLiveData<Resource<List<CoinMarketItem>>>()
+    val allCoins: LiveData<Resource<List<CoinMarketItem>>> = _allCoins
 
     init {
         getAllCoins()
     }
 
     fun getAllCoins() = viewModelScope.launch {
-
         coinRepository.getAllCoins()
             .onStart {
                 _result.value = Result(loading = R.string.loading)
@@ -40,7 +36,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
                 it.message
             }
             .collect {
-                _coinInfo.value = it
+                _allCoins.value = it
             }
     }
 

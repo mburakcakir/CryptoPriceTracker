@@ -1,5 +1,6 @@
 package com.mburakcakir.cryptopricetracker.data.repository
 
+import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.data.network.CryptoApi
 import com.mburakcakir.cryptopricetracker.utils.Resource
@@ -13,6 +14,20 @@ class CoinRepositoryImpl : CoinRepository {
     override suspend fun getAllCoins(): Flow<Resource<List<CoinMarketItem>>> = flow {
         try {
             val response = retrofitClient.getAllCoins()
+            if (response.isSuccessful) {
+                response.body()?.apply {
+                    emit(Resource.Success(this))
+                }
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(e))
+            e.printStackTrace()
+        }
+    }
+
+    override suspend fun getCoinByID(id: String): Flow<Resource<CoinDetailItem>> = flow {
+        try {
+            val response = retrofitClient.getCoinByID(id)
             if (response.isSuccessful) {
                 response.body()?.apply {
                     emit(Resource.Success(this))

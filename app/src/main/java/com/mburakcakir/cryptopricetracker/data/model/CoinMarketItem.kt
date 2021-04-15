@@ -1,5 +1,9 @@
 package com.mburakcakir.cryptopricetracker.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class CoinMarketItem(
     val ath: Double,
     val ath_change_percentage: Double,
@@ -23,8 +27,8 @@ data class CoinMarketItem(
     val name: String,
     val price_change_24h: Double,
     val price_change_percentage_24h: Double,
-    val roi: Roi,
+//    val roi: Roi,
     val symbol: String,
     val total_supply: Double,
 //    val total_volume: Int
-)
+) : Parcelable
