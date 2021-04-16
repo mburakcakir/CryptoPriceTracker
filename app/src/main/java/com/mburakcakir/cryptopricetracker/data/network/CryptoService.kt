@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface ApiService {
+interface CryptoService {
     @GET("coins/markets?vs_currency=usd")
     suspend fun getAllCoins(): Response<List<CoinMarketItem>>
 

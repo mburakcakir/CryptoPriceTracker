@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
@@ -14,6 +13,7 @@ import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinDetailBinding
 import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.utils.Status
 import com.mburakcakir.cryptopricetracker.utils.toast
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CoinDetailFragment : Fragment() {
@@ -22,9 +22,8 @@ class CoinDetailFragment : Fragment() {
     private val args by navArgs<CoinDetailFragmentArgs>()
     private lateinit var baseCoin: CoinMarketItem
     private var state: Boolean = false
-    private val coinDetailViewModel: CoinDetailViewModel by lazy {
-        ViewModelProvider(this).get(CoinDetailViewModel::class.java)
-    }
+    private val coinDetailViewModel by viewModel<CoinDetailViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,6 +76,7 @@ class CoinDetailFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> setCoinDetails(it.data)
             }
+            binding.state = CoinDetailViewState(it.status)
         }
     }
 

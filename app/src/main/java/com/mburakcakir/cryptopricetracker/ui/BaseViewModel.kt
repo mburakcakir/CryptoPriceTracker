@@ -1,12 +1,12 @@
 package com.mburakcakir.cryptopricetracker.ui
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mburakcakir.cryptopricetracker.utils.Result
+import org.koin.core.component.KoinComponent
 
-open class BaseViewModel(application: Application) : AndroidViewModel(application) {
+open class BaseViewModel : ViewModel(), KoinComponent {
 
     val _result = MutableLiveData<Result>()
     val result: LiveData<Result> = _result

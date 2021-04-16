@@ -112,5 +112,9 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:$coilVersion")
 
+    // Koin
+    implementation "io.insert-koin:koin-android:$koinVersion"
+    implementation "io.insert-koin:koin-android-ext:$koinVersion"
+
 
 }

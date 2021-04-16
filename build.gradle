@@ -19,6 +19,7 @@ buildscript {
         lifeCycleViewModelVersion = "2.3.1"
         circleImageViewVersion = "3.1.0"
         coilVersion = "1.1.1"
+        koinVersion= "3.0.1"
     }
     repositories {
         google()

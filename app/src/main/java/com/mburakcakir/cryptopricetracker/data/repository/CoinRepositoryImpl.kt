@@ -2,16 +2,16 @@ package com.mburakcakir.cryptopricetracker.data.repository
 
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
-import com.mburakcakir.cryptopricetracker.data.network.CryptoApi
+import com.mburakcakir.cryptopricetracker.data.network.CryptoServiceApi
 import com.mburakcakir.cryptopricetracker.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class CoinRepositoryImpl : CoinRepository {
+class CoinRepositoryImpl(private val clientApi: CryptoServiceApi) {
 
-    private val retrofitClient = CryptoApi.retrofitService
+    private val retrofitClient = clientApi.getApiService()
 
-    override suspend fun getAllCoins(): Flow<Resource<List<CoinMarketItem>>> = flow {
+    suspend fun getAllCoins(): Flow<Resource<List<CoinMarketItem>>> = flow {
         try {
             val response = retrofitClient.getAllCoins()
             if (response.isSuccessful) {
@@ -25,7 +25,7 @@ class CoinRepositoryImpl : CoinRepository {
         }
     }
 
-    override suspend fun getCoinByID(id: String): Flow<Resource<CoinDetailItem>> = flow {
+    suspend fun getCoinByID(id: String): Flow<Resource<CoinDetailItem>> = flow {
         try {
             val response = retrofitClient.getCoinByID(id)
             if (response.isSuccessful) {

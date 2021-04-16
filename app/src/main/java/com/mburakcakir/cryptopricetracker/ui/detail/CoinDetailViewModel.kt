@@ -1,12 +1,10 @@
 package com.mburakcakir.cryptopricetracker.ui.detail
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
-import com.mburakcakir.cryptopricetracker.data.repository.CoinRepository
 import com.mburakcakir.cryptopricetracker.data.repository.CoinRepositoryImpl
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.utils.Resource
@@ -16,9 +14,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class CoinDetailViewModel(application: Application) : BaseViewModel(application) {
-
-    private val coinRepository: CoinRepository = CoinRepositoryImpl()
+class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewModel() {
 
     private val _coinInfo = MutableLiveData<Resource<CoinDetailItem>>()
     val coinInfo: LiveData<Resource<CoinDetailItem>> = _coinInfo

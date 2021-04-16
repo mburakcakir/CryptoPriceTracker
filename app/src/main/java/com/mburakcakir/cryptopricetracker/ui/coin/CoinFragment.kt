@@ -4,21 +4,19 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
 import com.mburakcakir.cryptopricetracker.utils.NetworkController
 import com.mburakcakir.cryptopricetracker.utils.Status
 import com.mburakcakir.cryptopricetracker.utils.navigate
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
     private var coinAdapter = CoinAdapter()
 
-    private val coinViewModel: CoinViewModel by lazy {
-        ViewModelProvider(this).get(CoinViewModel::class.java)
-    }
+    private val coinViewModel by viewModel<CoinViewModel>()
 
     private val networkController: NetworkController by lazy {
         NetworkController(requireContext()).apply {
@@ -40,7 +38,6 @@ class CoinFragment : Fragment() {
     }
 
     private fun init() {
-
         setToolbar()
 
         setSwipeRefreshLayout()
@@ -58,6 +55,8 @@ class CoinFragment : Fragment() {
     }
 
     private fun setSwipeRefreshLayout() {
+        binding.state = CoinViewState(Status.LOADING)
+
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.swipeRefreshLayout.isRefreshing = true
             coinViewModel.getAllCoins()
