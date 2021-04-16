@@ -119,25 +119,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgIconImage" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutInterval"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_profile_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewSeperator">
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:id="@+id/layoutInterval"-->
+        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/margin_profile_item"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintEnd_toStartOf="@id/btnApprove"-->
+        <!--            android:layout_marginEnd="@dimen/margin_big"-->
+        <!--            android:layout_marginStart="@dimen/margin_big"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/viewSeperator">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtInterval"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_timelapse"
-                android:drawablePadding="@dimen/margin_min"
-                android:inputType="textPersonName" />
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/edtInterval"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:drawableStart="@drawable/ic_timelapse"-->
+        <!--                android:drawablePadding="@dimen/margin_min"-->
+        <!--                android:inputType="textPersonName" />-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/btnApprove"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintHorizontal_weight="0.3"-->
+        <!--            android:text="asda"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/layoutInterval"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@id/layoutInterval"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
         <TextView
             android:id="@+id/txtCoinHashingAlgorithm"
@@ -145,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:text="@{`Hashing Algorithm:` + coinDetail.hashing_algorithm}"
-            app:layout_constraintTop_toBottomOf="@id/layoutInterval" />
+            app:layout_constraintTop_toBottomOf="@id/viewSeperator" />
 
         <TextView
             android:id="@+id/txtCoinDescription"
@@ -164,7 +176,7 @@
             android:background="@color/gray"
             android:gravity="center"
             android:padding="@dimen/margin_min"
-            android:text="@{`Last Updated :`+ baseCoin.last_updated}"
+            android:text="@{`Last Updated: `+ baseCoin.last_updated}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent" />
 

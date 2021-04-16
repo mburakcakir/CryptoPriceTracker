@@ -40,10 +40,16 @@ class CoinFragment : Fragment() {
     }
 
     private fun init() {
+
         setToolbar()
-        checkInternetConnection()
-        setAdapter()
+
+        setSwipeRefreshLayout()
+
+        checkInternetConnectionAndFetchData()
+
         observeCoins()
+
+        setRecyclerView()
 
     }
 
@@ -51,32 +57,39 @@ class CoinFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_coin_list, menu)
-        val searchItem = menu.findItem(R.id.action_search).apply {
-            expandActionView()
+    private fun setSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            coinViewModel.getAllCoins()
         }
-        val searchView = searchItem?.actionView as SearchView
-        searchView.queryHint = "Search a coin"
-
-        return super.onCreateOptionsMenu(menu, inflater)
-
     }
 
-    private fun setAdapter() {
-        binding.rvCoinList.adapter = coinAdapter
-
-        coinAdapter.setCoinOnClickListener {
-            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it))
+    private fun checkInternetConnectionAndFetchData() {
+        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
+            if (isInternetConnected)
+                checkStationDataAndSetState()
+            else
+                binding.state = CoinViewState(Status.ERROR)
         }
     }
 
     private fun observeCoins() {
         coinViewModel.allCoins.observe(viewLifecycleOwner) {
             when (it.status) {
-                Status.SUCCESS -> coinAdapter.submitList(it.data)
+                Status.SUCCESS -> {
+                    coinAdapter.submitList(it.data)
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
             binding.state = CoinViewState(it.status)
+        }
+    }
+
+    private fun setRecyclerView() {
+        binding.rvCoinList.adapter = coinAdapter
+
+        coinAdapter.setCoinOnClickListener {
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it))
         }
     }
 
@@ -88,13 +101,19 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun checkInternetConnection() {
-
-        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
-            if (isInternetConnected)
-                checkStationDataAndSetState()
-            else
-                binding.state = CoinViewState(Status.ERROR)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_coin_list, menu)
+        val searchItem = menu.findItem(R.id.action_search).apply {
+            expandActionView()
         }
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Search a coin"
+
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

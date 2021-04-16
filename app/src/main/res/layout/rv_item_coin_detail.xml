@@ -74,20 +74,20 @@
                 android:paddingBottom="@dimen/margin_min"
                 android:text="@{Double.toString(coin.current_price) + ` $`}"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/imgRightArrow"
-                app:layout_constraintTop_toBottomOf="@id/imgRightArrow"
-                app:layout_constraintTop_toTopOf="@id/imgRightArrow"
-                tools:text="@string/coin_current_price" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_min"
-                android:background="@drawable/ic_arrow_right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/coin_current_price" />
+
+            <!--            <androidx.appcompat.widget.AppCompatImageView-->
+            <!--                android:id="@+id/imgRightArrow"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginEnd="@dimen/margin_min"-->
+            <!--                android:background="@drawable/ic_arrow_right"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

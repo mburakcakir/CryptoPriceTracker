@@ -17,8 +17,8 @@ import com.mburakcakir.cryptopricetracker.utils.toast
 
 
 class CoinDetailFragment : Fragment() {
-    private lateinit var _binding: FragmentCoinDetailBinding
-    private val binding get() = _binding
+    private var _binding: FragmentCoinDetailBinding? = null
+    private val binding get() = _binding!!
     private val args by navArgs<CoinDetailFragmentArgs>()
     private lateinit var baseCoin: CoinMarketItem
     private var state: Boolean = false
@@ -48,6 +48,7 @@ class CoinDetailFragment : Fragment() {
 
     private fun setToolbar() {
         setHasOptionsMenu(true)
+
         (requireActivity() as MainActivity).supportActionBar?.apply {
             title = "${baseCoin.name} (${baseCoin.symbol})"
         }
@@ -114,5 +115,10 @@ class CoinDetailFragment : Fragment() {
     private fun setFavouriteMessage(isFavourite: Boolean) {
         val message = if (isFavourite) "Added" else "Removed"
         requireContext().toast(message)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
