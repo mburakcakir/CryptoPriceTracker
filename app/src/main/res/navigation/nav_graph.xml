@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/coinFragment"
         android:name="com.mburakcakir.cryptopricetracker.ui.coin.CoinFragment"
-        android:label="fragment_coin"
+        android:label="Current Coin List"
         tools:layout="@layout/fragment_coin">
         <action
             android:id="@+id/action_coinFragment_to_coinDetailFragment"

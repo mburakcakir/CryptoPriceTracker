@@ -1,11 +1,11 @@
 package com.mburakcakir.cryptopricetracker.ui.coin
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
 import com.mburakcakir.cryptopricetracker.utils.NetworkController
 import com.mburakcakir.cryptopricetracker.utils.Status
@@ -40,12 +40,26 @@ class CoinFragment : Fragment() {
     }
 
     private fun init() {
-
+        setToolbar()
         checkInternetConnection()
         setAdapter()
         observeCoins()
 
+    }
 
+    private fun setToolbar() {
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_coin_list, menu)
+        val searchItem = menu.findItem(R.id.action_search).apply {
+            expandActionView()
+        }
+        val searchView = searchItem?.actionView as SearchView
+        searchView.queryHint = "Search a coin"
+
+        return super.onCreateOptionsMenu(menu, inflater)
 
     }
 
