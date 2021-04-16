@@ -1,5 +1,7 @@
 package com.mburakcakir.cryptopricetracker.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class CurrentPrice(
 //    val aed: Int,
 //    val ars: Int,
@@ -49,7 +51,8 @@ data class CurrentPrice(
 //    val sek: Int,
 //    val sgd: Int,
 //    val thb: Int,
-//    val `try`: Int,
+    @SerializedName("try")
+    val TRY: Double,
 //    val twd: Int,
 //    val uah: Int,
     val usd: Double,

@@ -1,6 +1,7 @@
 package com.mburakcakir.cryptopricetracker.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
@@ -16,6 +17,16 @@ infix fun Context.toast(message: String) {
 
 infix fun Fragment.navigate(navDirections: NavDirections) {
     findNavController().navigate(navDirections)
+}
+
+fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
+fun Drawable.setFilter(color: Int) {
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//        colorFilter = BlendModeColorFilter(color, BlendMode.SRC_ATOP);
+//    } else {
+//        setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+//    }
 }
 
 @BindingAdapter("loadImageFromUrl")

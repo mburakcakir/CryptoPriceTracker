@@ -30,30 +30,52 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtCoinCurrentPrice"
+            android:id="@+id/txtCoinCurrentPriceDolar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_max"
             android:text="@{Double.toString(baseCoin.current_price) + ` $`}"
             app:layout_constraintStart_toEndOf="@id/imgIconImage"
             app:layout_constraintTop_toTopOf="@id/imgIconImage" />
 
         <TextView
-            android:id="@+id/txtAthChangePercentage"
+            android:id="@+id/txtCoinCurrentPriceTRY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_min"
-            android:text="@{Double.toString(baseCoin.ath_change_percentage)}"
-            app:layout_constraintBottom_toBottomOf="@id/imgIconImage"
-            app:layout_constraintStart_toEndOf="@id/imgIconImage" />
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@{Double.toString(coinDetail.market_data.current_price.TRY) + ` ₺`}"
+            android:textSize="@dimen/text_size_min"
+            app:layout_constraintStart_toEndOf="@id/imgIconImage"
+            app:layout_constraintTop_toBottomOf="@id/txtCoinCurrentPriceDolar" />
+
+        <ImageView
+            android:id="@+id/imgMiddlePoint"
+            android:layout_width="3dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="@dimen/margin_min"
+            android:background="@drawable/bg_custom_round"
+            app:layout_constraintBottom_toBottomOf="@id/txtCoinCurrentPriceTRY"
+            app:layout_constraintStart_toEndOf="@id/txtCoinCurrentPriceTRY"
+            app:layout_constraintTop_toTopOf="@id/txtCoinCurrentPriceTRY" />
+
+        <TextView
+            android:id="@+id/txtAthChangePercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_min"
+            android:text="@{Double.toString(baseCoin.price_change_24h)}"
+            android:textSize="@dimen/text_size_min"
+            app:layout_constraintStart_toEndOf="@id/imgMiddlePoint"
+            app:layout_constraintTop_toTopOf="@id/txtCoinCurrentPriceTRY" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgChangeArrow"
             backgroundResource="@{baseCoin.price_change_24h}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_min"
             app:layout_constraintBottom_toBottomOf="@id/txtAthChangePercentage"
             app:layout_constraintStart_toEndOf="@id/txtAthChangePercentage"
             app:layout_constraintTop_toTopOf="@id/txtAthChangePercentage" />
@@ -62,8 +84,8 @@
             android:id="@+id/txtLow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginEnd="@dimen/margin_big"
             android:text="@{`Lowest(24h): ` + baseCoin.low_24h + ` $`}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_min"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_big"
             android:text="@{`Highest(24h): ` + baseCoin.high_24h + ` $`}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtLow" />
@@ -83,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_min"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_big"
             android:text="@{`Change(24h): ` + Double.toString(baseCoin.price_change_24h) + ` $`}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtHigh" />
@@ -97,13 +119,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imgIconImage" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutInterval"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_profile_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSeperator">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtInterval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_timelapse"
+                android:drawablePadding="@dimen/margin_min"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/txtCoinHashingAlgorithm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:text="@{`Hashing Algorithm:` + coinDetail.hashing_algorithm}"
-            app:layout_constraintTop_toBottomOf="@id/viewSeperator" />
+            app:layout_constraintTop_toBottomOf="@id/layoutInterval" />
 
         <TextView
             android:id="@+id/txtCoinDescription"
