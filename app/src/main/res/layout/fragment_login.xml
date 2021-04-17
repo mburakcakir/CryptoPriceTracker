@@ -7,7 +7,7 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="com.mburakcakir.cryptopricetracker.utils.EntryState" />
+        <import type="com.mburakcakir.cryptopricetracker.util.enums.EntryState" />
 
         <variable
             name="loginViewModel"

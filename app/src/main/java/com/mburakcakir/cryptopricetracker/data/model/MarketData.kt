@@ -1,8 +1,14 @@
 package com.mburakcakir.cryptopricetracker.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class MarketData(
-    val current_price: CurrentPrice,
-    val last_updated: String,
-    val price_change_24h: Double,
-    val price_change_24H_in_currency: PriceChange24hInCurrency,
+    @SerializedName("current_price")
+    val currentPrice: CurrentPrice,
+
+    @SerializedName("last_updated")
+    val lastUpdated: String,
+
+    @SerializedName("price_change_24h")
+    val priceChange24h: Double,
 )

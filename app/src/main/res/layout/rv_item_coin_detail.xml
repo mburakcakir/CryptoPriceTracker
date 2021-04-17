@@ -23,7 +23,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgCoin"
-                loadImageFromUrl="@{coin.image}"
+                loadImageFromUrl="@{coin.cryptoImage}"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,14 +49,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_min"
-                android:text="@{Double.toString(coin.price_change_24h) + `%`}"
+                android:text="@{Double.toString(coin.priceChangePercentage24h) + `%`}"
                 android:textSize="@dimen/text_size_min"
                 app:layout_constraintStart_toEndOf="@id/imgCoin"
                 app:layout_constraintTop_toBottomOf="@id/txtCoinName"
                 tools:text="@string/coin_price_change" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                backgroundResource="@{coin.price_change_24h}"
+                backgroundResource="@{coin.priceChangePercentage24h}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
@@ -72,7 +72,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_min"
                 android:paddingBottom="@dimen/margin_min"
-                android:text="@{Double.toString(coin.current_price) + ` $`}"
+                android:text="@{Double.toString(coin.currentPrice) + ` $`}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

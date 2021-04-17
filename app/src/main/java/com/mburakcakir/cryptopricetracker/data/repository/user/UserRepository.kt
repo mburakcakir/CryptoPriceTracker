@@ -2,7 +2,7 @@ package com.mburakcakir.cryptopricetracker.data.repository.user
 
 import android.content.Context
 import com.mburakcakir.cryptopricetracker.data.model.UserModel
-import com.mburakcakir.cryptopricetracker.utils.Resource
+import com.mburakcakir.cryptopricetracker.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

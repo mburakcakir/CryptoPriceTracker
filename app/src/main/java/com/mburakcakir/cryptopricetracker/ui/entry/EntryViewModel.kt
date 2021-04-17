@@ -2,14 +2,14 @@ package com.mburakcakir.cryptopricetracker.ui.entry
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.mburakcakir.cryptopricetracker.utils.Constants
-import com.mburakcakir.cryptopricetracker.utils.EntryState
-import com.mburakcakir.cryptopricetracker.utils.EntryType
-import com.mburakcakir.cryptopricetracker.utils.ValidationUtils
+import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
+import com.mburakcakir.cryptopricetracker.util.Constants
+import com.mburakcakir.cryptopricetracker.util.ValidationUtils
+import com.mburakcakir.cryptopricetracker.util.enums.EntryState
+import com.mburakcakir.cryptopricetracker.util.enums.EntryType
 
-open class EntryViewModel : ViewModel() {
+open class EntryViewModel : BaseViewModel() {
     private val _entryForm = MutableLiveData<EntryFormState>()
     val entryFormState: LiveData<EntryFormState> = _entryForm
     private val _errorPassword = MutableLiveData("")
@@ -18,8 +18,8 @@ open class EntryViewModel : ViewModel() {
     private lateinit var entryType: EntryType
     private var typeList: MutableList<String?> = mutableListOf()
 
-    val _result = MutableLiveData<ResultEntry>()
-    val resultEntry: LiveData<ResultEntry> = _result
+    val _resultEntry = MutableLiveData<ResultEntry>()
+    val resultEntry: LiveData<ResultEntry> = _resultEntry
 
     val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -65,11 +65,10 @@ open class EntryViewModel : ViewModel() {
         }.size == 0
 
     private fun setEntryParameters() {
-        typeList = mutableListOf(_errorEmail.value, _errorPassword.value)
-//            when (entryType) {
-//            EntryType.LOGIN -> mutableListOf(_errorEmail.value, _errorPassword.value)
-//            EntryType.REGISTER -> mutableListOf(_errorEmail.value, _errorPassword.value)
-//        }
+        when (entryType) {
+            EntryType.LOGIN -> mutableListOf(_errorEmail.value, _errorPassword.value)
+            EntryType.REGISTER -> mutableListOf(_errorEmail.value, _errorPassword.value)
+        }
     }
 
     fun setEntryType(entryType: EntryType) {

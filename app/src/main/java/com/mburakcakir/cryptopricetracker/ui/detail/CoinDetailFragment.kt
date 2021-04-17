@@ -12,8 +12,8 @@ import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinDetailBinding
 import com.mburakcakir.cryptopricetracker.ui.MainActivity
-import com.mburakcakir.cryptopricetracker.utils.Status
-import com.mburakcakir.cryptopricetracker.utils.toast
+import com.mburakcakir.cryptopricetracker.util.enums.Status
+import com.mburakcakir.cryptopricetracker.util.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -79,7 +79,7 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun observeCoinDetails() {
-        coinDetailViewModel.getCoinByID(baseCoin.id)
+        coinDetailViewModel.getCoinByID(baseCoin.cryptoID)
         coinDetailViewModel.coinInfo.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> setCoinDetails(it.data)
@@ -89,12 +89,12 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun setCoinDetails(coinDetails: CoinDetailItem?) {
-        val lastUpdated = coinDetailViewModel.formatUpdatedTime(baseCoin.last_updated)
-        val priceChange24h = coinDetailViewModel.formatPriceChange(baseCoin.price_change_24h)
+        val lastUpdated = coinDetailViewModel.formatUpdatedTime(baseCoin.lastUpdated)
+        val priceChange24h = coinDetailViewModel.formatPriceChange(baseCoin.priceChange24h)
 
         val copiedBaseCoin = baseCoin.copy(
-            last_updated = lastUpdated,
-            price_change_24h = priceChange24h
+            lastUpdated = lastUpdated,
+            priceChange24h = priceChange24h
         )
 
         binding.coinDetail = coinDetails

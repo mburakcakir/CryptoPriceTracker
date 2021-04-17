@@ -1,4 +1,4 @@
-package com.mburakcakir.cryptopricetracker.utils
+package com.mburakcakir.cryptopricetracker.util
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -6,7 +6,7 @@ import android.net.Network
 import android.net.NetworkRequest
 import androidx.lifecycle.MutableLiveData
 
-class NetworkController(context: Context) {
+class NetworkControllerUtils(context: Context) {
 
     private var _isNetworkConnected = MutableLiveData<Boolean>()
     var isNetworkConnected = _isNetworkConnected

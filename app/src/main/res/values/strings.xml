@@ -33,6 +33,11 @@
     <string name="register_success">Kayıt Başarılı.</string>
     <string name="register_error">Kayıt Oluşturuluyor..</string>
 
+    <!-- crypto -->
+    <string name="crypto_loading">Kaydediliyor..</string>
+    <string name="crypto_success">Kaydedildi</string>
+    <string name="crypto_error">Kaydedilemedi</string>
+
     <string name="email">Email</string>
     <string name="password">Şifre</string>
 

@@ -1,4 +1,4 @@
-package com.mburakcakir.cryptopricetracker.utils
+package com.mburakcakir.cryptopricetracker.util
 
 import android.util.Patterns
 import java.util.regex.Pattern

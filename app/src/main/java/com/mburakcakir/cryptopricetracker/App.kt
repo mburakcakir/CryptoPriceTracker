@@ -1,6 +1,7 @@
 package com.mburakcakir.cryptopricetracker
 
 import android.app.Application
+import com.mburakcakir.cryptopricetracker.di.databaseModule
 import com.mburakcakir.cryptopricetracker.di.networkModule
 import com.mburakcakir.cryptopricetracker.di.repositoryModule
 import com.mburakcakir.cryptopricetracker.di.viewModelModule
@@ -12,7 +13,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(viewModelModule, repositoryModule, networkModule))
+            modules(listOf(viewModelModule, repositoryModule, networkModule, databaseModule))
         }
     }
 }

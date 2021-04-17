@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:text="@{Double.toString(baseCoin.current_price) + ` $`}"
+                android:text="@{Double.toString(baseCoin.currentPrice) + ` $`}"
                 android:textSize="@dimen/text_size_max"
                 app:layout_constraintStart_toEndOf="@id/imgIconImage"
                 app:layout_constraintTop_toTopOf="@id/imgIconImage" />
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@{Double.toString(coinDetail.market_data.current_price.TRY) + ` ₺`}"
+                android:text="@{Double.toString(coinDetail.marketData.currentPrice.TRY) + ` ₺`}"
                 android:textSize="@dimen/text_size_min"
                 app:layout_constraintStart_toEndOf="@id/imgIconImage"
                 app:layout_constraintTop_toBottomOf="@id/txtCoinCurrentPriceDolar" />
@@ -83,14 +83,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_min"
-                android:text="@{Double.toString(baseCoin.price_change_24h)}"
+                android:text="@{Double.toString(baseCoin.priceChangePercentage24h)}"
                 android:textSize="@dimen/text_size_min"
                 app:layout_constraintStart_toEndOf="@id/imgMiddlePoint"
                 app:layout_constraintTop_toTopOf="@id/txtCoinCurrentPriceTRY" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgChangeArrow"
-                backgroundResource="@{baseCoin.price_change_24h}"
+                backgroundResource="@{baseCoin.priceChangePercentage24h}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_min"
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_big"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Lowest(24h): ` + baseCoin.low_24h + ` $`}"
+                android:text="@{`Lowest(24h): ` + baseCoin.lowestPrice24h + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_min"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Highest(24h): ` + baseCoin.high_24h + ` $`}"
+                android:text="@{`Highest(24h): ` + baseCoin.highestPrice24h + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtLow" />
 
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_min"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Change(24h): ` + Double.toString(baseCoin.price_change_24h) + ` $`}"
+                android:text="@{`Change(24h): ` + Double.toString(baseCoin.priceChange24h) + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtHigh" />
 
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@{`Hashing Algorithm:` + coinDetail.hashing_algorithm}"
+                android:text="@{`Hashing Algorithm:` + coinDetail.hashingAlgorithm}"
                 app:layout_constraintTop_toBottomOf="@id/viewSeperator" />
 
             <TextView
@@ -193,7 +193,7 @@
                 android:background="@color/gray"
                 android:gravity="center"
                 android:padding="@dimen/margin_min"
-                android:text="@{`Last Updated: `+ baseCoin.last_updated}"
+                android:text="@{`Last Updated: `+ baseCoin.lastUpdated}"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent" />
 

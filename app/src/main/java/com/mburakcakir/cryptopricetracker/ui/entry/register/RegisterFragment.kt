@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mburakcakir.cryptopricetracker.databinding.FragmentRegisterBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
-import com.mburakcakir.cryptopricetracker.utils.EntryState
-import com.mburakcakir.cryptopricetracker.utils.EntryType
-import com.mburakcakir.cryptopricetracker.utils.navigate
-import com.mburakcakir.cryptopricetracker.utils.toast
+import com.mburakcakir.cryptopricetracker.util.enums.EntryState
+import com.mburakcakir.cryptopricetracker.util.enums.EntryType
+import com.mburakcakir.cryptopricetracker.util.navigate
+import com.mburakcakir.cryptopricetracker.util.toast
 
 class RegisterFragment : Fragment() {
     private lateinit var registerViewModel: RegisterViewModel

@@ -7,8 +7,9 @@ import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
-import com.mburakcakir.cryptopricetracker.utils.Resource
-import com.mburakcakir.cryptopricetracker.utils.Result
+import com.mburakcakir.cryptopricetracker.util.Resource
+import com.mburakcakir.cryptopricetracker.util.Result
+import com.mburakcakir.cryptopricetracker.util.enums.Status
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -18,6 +19,19 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
 
     private val _allCoins = MutableLiveData<Resource<List<CoinMarketItem>>>()
     val allCoins: LiveData<Resource<List<CoinMarketItem>>> = _allCoins
+
+    fun getCoinsByParameter(parameter: String) = viewModelScope.launch {
+        coinRepository.getCoinsByParameter(parameter)
+            .onStart {
+                _result.value = Result(loading = R.string.loading)
+            }
+            .catch {
+                it.message
+            }
+            .collect {
+                _allCoins.value = it
+            }
+    }
 
     fun getAllCoins() = viewModelScope.launch {
         coinRepository.getAllCoins()
@@ -29,6 +43,24 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
             }
             .collect {
                 _allCoins.value = it
+            }
+    }
+
+    fun insertAllCoins(listCrypto: List<CoinMarketItem>) = viewModelScope.launch {
+        coinRepository.insertAllCoins(listCrypto)
+            .onStart {
+                _result.value = Result(loading = R.string.crypto_loading)
+            }
+            .collect {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        it.data?.let {
+                            if (it) Result(success = R.string.crypto_success)
+                        }
+                    }
+                    Status.ERROR -> Result(success = R.string.crypto_error)
+
+                }
             }
     }
 

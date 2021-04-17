@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mburakcakir.cryptopricetracker.databinding.FragmentLoginBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
-import com.mburakcakir.cryptopricetracker.utils.EntryState
-import com.mburakcakir.cryptopricetracker.utils.EntryType
-import com.mburakcakir.cryptopricetracker.utils.navigate
-import com.mburakcakir.cryptopricetracker.utils.toast
+import com.mburakcakir.cryptopricetracker.util.enums.EntryState
+import com.mburakcakir.cryptopricetracker.util.enums.EntryType
+import com.mburakcakir.cryptopricetracker.util.navigate
+import com.mburakcakir.cryptopricetracker.util.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -56,12 +56,12 @@ class LoginFragment : Fragment() {
         binding.edtEmail.setText("muhburcak@gmail.com")
         binding.edtPassword.setText("aaaaA4")
 
-        binding.btnLogin.setOnClickListener {
-            loginViewModel.login(
-                binding.edtEmail.text.toString(),
-                binding.edtPassword.text.toString()
-            )
-        }
+//        binding.btnLogin.setOnClickListener {
+//            loginViewModel.login(
+//                binding.edtEmail.text.toString(),
+//                binding.edtPassword.text.toString()
+//            )
+//        }
 
         binding.edtEmail.afterTextChanged {
             loginViewModel.isDataChanged(
@@ -114,6 +114,7 @@ class LoginFragment : Fragment() {
         else {
             requireContext().verifyEmail()
         }
+
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

@@ -1,4 +1,6 @@
-package com.mburakcakir.cryptopricetracker.utils
+package com.mburakcakir.cryptopricetracker.util
+
+import com.mburakcakir.cryptopricetracker.util.enums.Status
 
 sealed class Resource<out T>(val status: Status, val data: T?, val message: Throwable?) {
 

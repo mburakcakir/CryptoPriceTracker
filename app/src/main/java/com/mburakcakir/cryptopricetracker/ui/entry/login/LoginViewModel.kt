@@ -9,27 +9,16 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : EntryViewModel() {
 
-//    fun login(username: String, password: String) = viewModelScope.launch {
-//        userRepository.getUserByUsername(username, password)
-//            .onStart { _result.postValue(ResultEntry(loading = "Giriş Yapılıyor...")) }
-//            .collect {
-//                when (it.status) {
-//                    Status.SUCCESS -> checkLogin(it.data)
-//                    Status.ERROR -> _result.postValue(ResultEntry(error = "Giriş Başarısız."))
-//                }
-//            }
-//    }
-
     private val _isVerifiedSent = MutableLiveData<Boolean>()
     val isVerifiedSent: LiveData<Boolean> = _isVerifiedSent
 
 
     fun login(email: String, password: String) = viewModelScope.launch {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-            _result.postValue(ResultEntry(success = "Giriş Yapıldı"))
+            _resultEntry.postValue(ResultEntry(success = "Giriş Yapıldı"))
         }
             .addOnFailureListener {
-                _result.postValue(ResultEntry(error = "Giriş Yapılamadı"))
+                _resultEntry.postValue(ResultEntry(error = "Giriş Yapılamadı"))
             }
     }
 
@@ -41,9 +30,8 @@ class LoginViewModel : EntryViewModel() {
     }
 
     fun sendEmailVerify() {
-        if (firebaseAuth.currentUser != null) {
-            firebaseAuth.currentUser.sendEmailVerification()
-
+        firebaseAuth.currentUser?.let {
+            it.sendEmailVerification()
                 .addOnSuccessListener {
                     _isVerifiedSent.postValue(true)
                 }

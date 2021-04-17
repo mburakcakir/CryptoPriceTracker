@@ -1,4 +1,4 @@
-package com.mburakcakir.cryptopricetracker.utils
+package com.mburakcakir.cryptopricetracker.util
 
 data class Result(
     val success: Int? = null,

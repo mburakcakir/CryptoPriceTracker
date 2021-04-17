@@ -1,29 +1,43 @@
 package com.mburakcakir.cryptopricetracker.data.model
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "tbl_coin_list")
 @Parcelize
 data class CoinMarketItem(
-    val ath: Double,
-    val ath_change_percentage: Double,
-    val ath_date: String,
-    val atl: Double,
-    val atl_change_percentage: Double,
-    val atl_date: String,
-    val circulating_supply: Double,
-    val current_price: Double,
-    val high_24h: Double,
-    val id: String,
-    val image: String,
-    val last_updated: String,
-    val low_24h: Double,
-    val max_supply: Double,
+    @PrimaryKey
+    @SerializedName("id")
+    val cryptoID: String,
+
+    @SerializedName("current_price")
+    val currentPrice: Double,
+
+    @SerializedName("high_24h")
+    val highestPrice24h: Double,
+
+    @SerializedName("image")
+    val cryptoImage: String,
+
+    @SerializedName("last_updated")
+    val lastUpdated: String,
+
+    @SerializedName("low_24h")
+    val lowestPrice24h: Double,
+
+    @SerializedName("name")
     val name: String,
-    val price_change_24h: Double,
-    val price_change_percentage_24h: Double,
-//    val roi: Roi,
+
+    @SerializedName("price_change_24h")
+    val priceChange24h: Double,
+
+    @SerializedName("price_change_percentage_24h")
+    val priceChangePercentage24h: Double,
+
+    @SerializedName("symbol")
     val symbol: String,
-    val total_supply: Double,
-//    val total_volume: Int
-) : Parcelable
+
+    ) : Parcelable

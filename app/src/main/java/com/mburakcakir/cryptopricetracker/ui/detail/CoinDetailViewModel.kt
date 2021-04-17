@@ -7,8 +7,8 @@ import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
-import com.mburakcakir.cryptopricetracker.utils.Resource
-import com.mburakcakir.cryptopricetracker.utils.Result
+import com.mburakcakir.cryptopricetracker.util.Resource
+import com.mburakcakir.cryptopricetracker.util.Result
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
