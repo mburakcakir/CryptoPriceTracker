@@ -1,4 +1,4 @@
-package com.mburakcakir.cryptopricetracker.data.repository
+package com.mburakcakir.cryptopricetracker.data.repository.coin
 
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem

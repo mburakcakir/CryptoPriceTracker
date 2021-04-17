@@ -10,4 +10,33 @@
     <string name="error_internet_connection">İnternet bağlantısı sağlanamadı.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- login -->
+    <string name="login_welcome">Hoşgeldiniz</string>
+    <string name="login_message">Üye girişi yapınız</string>
+    <string name="login_check_user">Üye değil misin?</string>
+    <string name="login_message_register">Hemen Üye Ol</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="login_again">OTURUM KAPATILDI. TEKRAR GİRİŞ YAPIN.</string>
+
+    <string name="login_loading">Giriş Yapılıyor..</string>
+    <string name="login_warning">Kullanıcı Zaten Kayıtlı</string>
+    <string name="login_success">Giriş Başarılı</string>
+    <string name="login_error">Kullanıcı kaydında bir hata oluştu.</string>
+
+    <!-- register -->
+    <string name="register_loading">Kayıt Oluşturuluyor..</string>
+    <string name="register_warning">Kayıt Oluşturuluyor..</string>
+    <string name="register_success">Kayıt Başarılı.</string>
+    <string name="register_error">Kayıt Oluşturuluyor..</string>
+
+    <string name="email">Email</string>
+    <string name="password">Şifre</string>
+
+    <string name="login">Giriş Yap</string>
+    <string name="register">Üye Ol</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.mburakcakir.cryptopricetracker.ui.detail
 
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -39,10 +40,17 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun init() {
-        baseCoin = args.baseCoin
+
+        setData()
+
         observeCoinDetails()
 
         setToolbar()
+    }
+
+    private fun setData() {
+        baseCoin = args.baseCoin
+        binding.state = CoinDetailViewState(Status.LOADING)
     }
 
     private fun setToolbar() {
@@ -64,7 +72,7 @@ class CoinDetailFragment : Fragment() {
             R.id.action_fav -> {
                 state = !state
                 item.changeIconColor(state)
-                setFavouriteMessage(state)
+                requireContext().toast(coinDetailViewModel.setFavouriteMessage(state))
             }
         }
         return super.onOptionsItemSelected(item)
@@ -81,35 +89,24 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun setCoinDetails(coinDetails: CoinDetailItem?) {
-        val lastUpdated = "${baseCoin.last_updated.substring(0, 10)}, ${
-            baseCoin.last_updated.substring(
-                11,
-                19
-            )
-        }"
-        val priceChange24h =
-            String.format("%.2f", baseCoin.price_change_24h).replace(",", ".").toDouble()
-        binding.coinDetail = coinDetails
+        val lastUpdated = coinDetailViewModel.formatUpdatedTime(baseCoin.last_updated)
+        val priceChange24h = coinDetailViewModel.formatPriceChange(baseCoin.price_change_24h)
+
         val copiedBaseCoin = baseCoin.copy(
             last_updated = lastUpdated,
             price_change_24h = priceChange24h
         )
-        binding.baseCoin = copiedBaseCoin
 
+        binding.coinDetail = coinDetails
+        binding.baseCoin = copiedBaseCoin
     }
 
-    // DEPRECATED
     private infix fun MenuItem.changeIconColor(isFavourite: Boolean) {
         val color = if (isFavourite) R.color.yellow else R.color.white
-        icon.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                color
-            ), PorterDuff.Mode.SRC_IN
+        icon.colorFilter = PorterDuffColorFilter(
+            ContextCompat.getColor(requireContext(), color),
+            PorterDuff.Mode.SRC_IN
         )
-//        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP).apply {
-//            icon.colorFilter = this
-//        }
     }
 
     private fun setFavouriteMessage(isFavourite: Boolean) {

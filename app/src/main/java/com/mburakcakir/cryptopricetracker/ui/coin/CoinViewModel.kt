@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
-import com.mburakcakir.cryptopricetracker.data.repository.CoinRepositoryImpl
+import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.utils.Resource
 import com.mburakcakir.cryptopricetracker.utils.Result
@@ -18,10 +18,6 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
 
     private val _allCoins = MutableLiveData<Resource<List<CoinMarketItem>>>()
     val allCoins: LiveData<Resource<List<CoinMarketItem>>> = _allCoins
-
-    init {
-        getAllCoins()
-    }
 
     fun getAllCoins() = viewModelScope.launch {
         coinRepository.getAllCoins()

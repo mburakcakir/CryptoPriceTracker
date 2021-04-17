@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
 import com.mburakcakir.cryptopricetracker.utils.NetworkController
@@ -17,7 +18,7 @@ class CoinFragment : Fragment() {
     private var coinAdapter = CoinAdapter()
 
     private val coinViewModel by viewModel<CoinViewModel>()
-
+    private lateinit var firebaseAuth: FirebaseAuth
     private val networkController: NetworkController by lazy {
         NetworkController(requireContext()).apply {
             startNetworkCallback()
@@ -34,7 +35,7 @@ class CoinFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        checkIfUserLoggedIn()
     }
 
     private fun init() {
@@ -48,9 +49,11 @@ class CoinFragment : Fragment() {
 
         setRecyclerView()
 
+
     }
 
     private fun setToolbar() {
+//        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
         setHasOptionsMenu(true)
     }
 
@@ -66,7 +69,7 @@ class CoinFragment : Fragment() {
     private fun checkInternetConnectionAndFetchData() {
         networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
             if (isInternetConnected)
-                checkStationDataAndSetState()
+                checkCoinData()
             else
                 binding.state = CoinViewState(Status.ERROR)
         }
@@ -84,6 +87,19 @@ class CoinFragment : Fragment() {
         }
     }
 
+    private fun checkIfUserLoggedIn() {
+        firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser != null) {
+            if (firebaseAuth.currentUser.isEmailVerified) {
+                init()
+            }
+        } else {
+//            (requireActivity() as MainActivity).changeToolbarVisibility(View.GONE)
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
+        }
+
+    }
+
     private fun setRecyclerView() {
         binding.rvCoinList.adapter = coinAdapter
 
@@ -92,7 +108,7 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun checkStationDataAndSetState() {
+    private fun checkCoinData() {
         if (coinViewModel.allCoins.value == null)
             coinViewModel.getAllCoins()
         else {

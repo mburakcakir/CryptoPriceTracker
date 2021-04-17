@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "860362525295",
+    "project_id": "cryptopricetracker-1d7b4",
+    "storage_bucket": "cryptopricetracker-1d7b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860362525295:android:0156654c8e1245ffdb9b9a",
+        "android_client_info": {
+          "package_name": "com.mburakcakir.cryptopricetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "860362525295-lvnkd9khegmri951q039klm0ffnnhdnc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mburakcakir.cryptopricetracker",
+            "certificate_hash": "2f904fb09c9a434ec53c2b62784c146c60cc36d9"
+          }
+        },
+        {
+          "client_id": "860362525295-lrss1v526vnalen64qifcdpaioe0ircf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAliFUVU4N6qUzuLKoT3Q4bKPC_ejmZCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "860362525295-lrss1v526vnalen64qifcdpaioe0ircf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
