@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
+import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
@@ -62,7 +59,7 @@ class CoinFragment : Fragment() {
     }
 
     private fun setToolbar() {
-//        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
+        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
         setHasOptionsMenu(true)
     }
 
@@ -78,10 +75,8 @@ class CoinFragment : Fragment() {
 
     private fun checkInternetConnectionAndFetchData() {
         networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
-            if (isInternetConnected)
-                checkCoinData()
-            else
-                binding.state = CoinViewState(Status.ERROR)
+            if (isInternetConnected) checkCoinData()
+            else binding.state = CoinViewState(Status.ERROR)
         }
     }
 
@@ -90,8 +85,9 @@ class CoinFragment : Fragment() {
             when (it.status) {
                 Status.SUCCESS -> {
                     coinAdapter.submitList(it.data)
-                    binding.swipeRefreshLayout.isRefreshing = false
                     coinViewModel.insertAllCoins(it.data!!)
+
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
             }
             binding.state = CoinViewState(it.status)
@@ -101,11 +97,8 @@ class CoinFragment : Fragment() {
     private fun checkIfUserLoggedIn() {
         firebaseAuth = FirebaseAuth.getInstance()
         if (firebaseAuth.currentUser != null) {
-            if (firebaseAuth.currentUser.isEmailVerified) {
                 init()
-            }
         } else {
-//            (requireActivity() as MainActivity).changeToolbarVisibility(View.GONE)
             this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
         }
 
@@ -132,7 +125,7 @@ class CoinFragment : Fragment() {
         inflater.inflate(R.menu.menu_coin_list, menu)
 
         val searchItem = menu.findItem(R.id.action_search).apply {
-            expandActionView()
+//            expandActionView()
         }
 
         val searchView = searchItem?.actionView as SearchView
@@ -159,17 +152,17 @@ class CoinFragment : Fragment() {
     }
 
     private fun repeatRequestByRefreshInterval() {
-        sharedPreferences = SharedPreferences(requireContext())
-        this.lifecycleScope.launch(Dispatchers.IO) {
-            while (true) {
-                coinViewModel.getAllCoins()
-                sharedPreferences.getRefreshInterval()?.let {
-                    delay(Integer.parseInt(it).toLong() * 1000)
-                }
-            }
-        }
+//        sharedPreferences = SharedPreferences(requireContext())
+//        sharedPreferences.getRefreshInterval()?.let {
+//            this.lifecycleScope.launch(Dispatchers.IO) {
+//                while (true) {
+//                    coinViewModel.getAllCoins()
+//                    delay(Integer.parseInt(it).toLong() * 1000)
+//                }
+//            }
+//
+//        }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

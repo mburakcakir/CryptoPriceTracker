@@ -11,6 +11,8 @@ buildscript {
         firebaseUiVersion = "6.4.0"
         firebaseAnalyticsVersion = "18.0.3"
         firebaseAuthVersion = "20.0.4"
+        firestoreVersion = "22.1.2"
+        firebaseBomVersion = "27.0.0"
         okHttpVersion = "2.7.2"
         materialVersion = '1.3.0'
         navigationVersion = "2.3.5"

@@ -18,7 +18,7 @@ fun ImageView.loadImage2(imageUrl: String) {
     Glide.with(context).load(imageUrl).into(this)
 }
 
-@BindingAdapter("backgroundResource")
+@BindingAdapter("setArrowBackground")
 fun ImageView.setBackground(number: Double) {
     this.setBackgroundResource(if (number > 0) R.drawable.ic_arrow_up else R.drawable.ic_arrow_down)
 }

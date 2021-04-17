@@ -88,7 +88,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgChangeArrow"
-                backgroundResource="@{coinDetail.marketData.priceChangePercentage24h}"
+                setArrowBackground="@{coinDetail.marketData.priceChangePercentage24h}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_min"

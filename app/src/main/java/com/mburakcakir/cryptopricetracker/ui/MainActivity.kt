@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun changeToolbarVisibility(visibility: Int) {
-        binding.appBarLayout.visibility = visibility
+//        binding.toolbar.visibility = visibility
     }
 
 }

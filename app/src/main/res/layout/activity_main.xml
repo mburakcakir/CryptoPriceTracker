@@ -22,6 +22,9 @@
             android:paddingEnd="@dimen/margin_medium"
             android:theme="@style/ToolbarStyle"
             app:titleTextAppearance="@style/ToolbarTitleText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 

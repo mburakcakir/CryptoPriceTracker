@@ -47,11 +47,15 @@
 
     <string name="search_coin">Search a coin</string>
     <string name="error_email_address">"Mail adresi bulunamadı."</string>
-    <string name="check_email_address">Check your email to verify your address</string>
+    <string name="check_email_address">We sent you a validation.\nCheck your email to verify your address.</string>
     <string name="warning">WARNING</string>
-    <string name="check">Check</string>
-    <string name="discard">Discard</string>
+    <string name="check">CHECK</string>
+    <string name="discard">DISCARD</string>
     <string name="error_install_gmail">Please Install Gmail</string>
     <string name="gmail_package_name">com.google.android.gm</string>
+
+    <string name="favourite_add_success">Favorilere başarıyla eklendi.</string>
+    <string name="favourite_remove_success">Favorilerden başarıyla kaldırıldı.</string>
+    <string name="favourite_add_error">Ekleme işlemi başarısız oldu.</string>
 
 </resources>

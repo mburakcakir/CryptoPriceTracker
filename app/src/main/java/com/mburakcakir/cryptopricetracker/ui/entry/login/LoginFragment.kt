@@ -119,12 +119,10 @@ class LoginFragment : Fragment() {
     private fun checkUserVerifiedAndNavigate() {
         val isUserVerified = loginViewModel.checkIfUserVerified()
 
-        if (isUserVerified)
-            this.navigate(LoginFragmentDirections.actionLoginFragmentToCoinFragment())
-        else {
+        if (!isUserVerified)
             requireContext().verifyEmail()
-        }
 
+        this.navigate(LoginFragmentDirections.actionLoginFragmentToCoinFragment())
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

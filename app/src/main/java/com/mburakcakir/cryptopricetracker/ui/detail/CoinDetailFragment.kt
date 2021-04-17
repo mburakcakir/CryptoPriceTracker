@@ -54,7 +54,7 @@ class CoinDetailFragment : Fragment() {
 
         setData()
 
-        observeCoinDetails()
+        observeData()
 
         setToolbar()
     }
@@ -62,8 +62,6 @@ class CoinDetailFragment : Fragment() {
     private fun setData() {
         baseCoin = args.baseCoin
         binding.state = CoinDetailViewState(Status.LOADING)
-
-
         sharedPreferences = SharedPreferences(requireContext())
         sharedPreferences.getRefreshInterval()?.let {
             binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
@@ -94,15 +92,15 @@ class CoinDetailFragment : Fragment() {
             R.id.action_fav -> {
                 state = !state
                 item.changeIconColor(state)
+                coinDetailViewModel.addToFavourites(baseCoin)
                 requireContext().toast(setFavouriteMessage(state))
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun observeCoinDetails() {
+    private fun observeData() {
         coinDetailViewModel.getCoinByID(baseCoin.cryptoID)
-
         coinDetailViewModel.coinInfo.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
@@ -112,6 +110,14 @@ class CoinDetailFragment : Fragment() {
             }
             binding.state = CoinDetailViewState(it.status)
         }
+
+        coinDetailViewModel.isAddedFavourite.observe(viewLifecycleOwner) {
+            if (it)
+                requireContext() toast getString(R.string.favourite_add_success)
+            else
+                requireContext() toast getString(R.string.favourite_remove_success)
+        }
+
     }
 
     private fun setCoinDetails(coinDetails: CoinDetailItem) {

@@ -16,7 +16,7 @@ data class CoinDetailItem(
     val description: Description,
 
     @SerializedName("hashing_algorithm")
-    val hashingAlgorithm: String,
+    val hashingAlgorithm: String?,
 
     @SerializedName("image")
     val image: Image,
