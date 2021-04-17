@@ -10,6 +10,7 @@ import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.util.Resource
 import com.mburakcakir.cryptopricetracker.util.Result
 import com.mburakcakir.cryptopricetracker.util.enums.Status
+import com.mburakcakir.cryptopricetracker.util.format
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
@@ -21,7 +22,7 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
     val allCoins: LiveData<Resource<List<CoinMarketItem>>> = _allCoins
 
     fun getCoinsByParameter(parameter: String) = viewModelScope.launch {
-        coinRepository.getCoinsByParameter(parameter)
+        coinRepository.getCoinsByParameter(parameter.format())
             .onStart {
                 _result.value = Result(loading = R.string.loading)
             }
@@ -63,25 +64,4 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
                 }
             }
     }
-
-//    private fun getAllCoins() = viewModelScope.launch {
-//        coinRepository.getAllCoins()
-//            .onStart {
-//                _result.value = Result(loading = R.string.loading)
-//            }
-//            .collect {
-//                when (it.status) {
-//                    Status.SUCCESS -> {
-//                        it.data?.let { responseCoinItemList ->
-//                            _result.value = Result(success = R.string.success)
-//                            _coinInfo.value = responseCoinItemList
-//                        }
-//                    }
-//                    Status.ERROR -> {
-//                        _result.value = Result(error = R.string.error)
-//                        Log.v("coinInfo", it.message.toString())
-//                    }
-//                }
-//            }
-//    }
 }

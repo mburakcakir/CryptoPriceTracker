@@ -128,7 +128,7 @@ class CoinFragment : Fragment() {
         val searchView = searchItem?.actionView as SearchView
 
         searchView.apply {
-            queryHint = "Search a coin"
+            queryHint = getString(R.string.search_coin)
             setOnQueryTextListener(onQueryTextListener)
         }
 
@@ -141,10 +141,8 @@ class CoinFragment : Fragment() {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if (newText.isNullOrEmpty().not())
-                coinViewModel.getCoinsByParameter(newText!!)
-            else
-                coinViewModel.getAllCoins()
+            if (newText.isNullOrEmpty().not()) coinViewModel.getCoinsByParameter(newText!!)
+            else coinViewModel.getAllCoins()
 
             return true
         }

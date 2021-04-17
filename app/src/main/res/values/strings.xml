@@ -44,4 +44,14 @@
     <string name="login">Giriş Yap</string>
     <string name="register">Üye Ol</string>
 
+
+    <string name="search_coin">Search a coin</string>
+    <string name="error_email_address">"Mail adresi bulunamadı."</string>
+    <string name="check_email_address">Check your email to verify your address</string>
+    <string name="warning">WARNING</string>
+    <string name="check">Check</string>
+    <string name="discard">Discard</string>
+    <string name="error_install_gmail">Please Install Gmail</string>
+    <string name="gmail_package_name">com.google.android.gm</string>
+
 </resources>

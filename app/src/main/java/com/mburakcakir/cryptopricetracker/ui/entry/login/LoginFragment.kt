@@ -1,8 +1,5 @@
 package com.mburakcakir.cryptopricetracker.ui.entry.login
 
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -10,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentLoginBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
 import com.mburakcakir.cryptopricetracker.util.enums.EntryState
 import com.mburakcakir.cryptopricetracker.util.enums.EntryType
 import com.mburakcakir.cryptopricetracker.util.navigate
 import com.mburakcakir.cryptopricetracker.util.toast
+import com.mburakcakir.cryptopricetracker.util.verifyEmail
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -45,23 +43,27 @@ class LoginFragment : Fragment() {
     }
 
     private fun init() {
+        setToolbar()
+
+        checkInputAndClick()
+
+        observeData()
+    }
+
+    private fun checkInputAndClick() {
 
         loginViewModel.setEntryType(EntryType.LOGIN)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.btnRegister.setOnClickListener {
-            this.navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
-        }
-
         binding.edtEmail.setText("muhburcak@gmail.com")
         binding.edtPassword.setText("aaaaA4")
 
-//        binding.btnLogin.setOnClickListener {
-//            loginViewModel.login(
-//                binding.edtEmail.text.toString(),
-//                binding.edtPassword.text.toString()
-//            )
-//        }
+        binding.btnLogin.setOnClickListener {
+            loginViewModel.login(
+                binding.edtEmail.text.toString(),
+                binding.edtPassword.text.toString()
+            )
+        }
 
         binding.edtEmail.afterTextChanged {
             loginViewModel.isDataChanged(
@@ -77,6 +79,17 @@ class LoginFragment : Fragment() {
             )
         }
 
+        binding.btnRegister.setOnClickListener {
+            this.navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        }
+
+    }
+
+    private fun setToolbar() {
+
+    }
+
+    private fun observeData() {
         loginViewModel.entryFormState.observe(viewLifecycleOwner, {
             binding.btnLogin.isEnabled = it.isDataValid
 
@@ -90,16 +103,17 @@ class LoginFragment : Fragment() {
             if (it)
                 loginViewModel.sendEmailVerify()
             else
-                requireContext() toast "Mail adresi bulunamadı."
+                requireContext() toast getString(R.string.error_email_address)
         }
+
         loginViewModel.resultEntry.observe(viewLifecycleOwner) {
             when {
-                !it.success.isNullOrEmpty() -> {
+                it.success.isNullOrEmpty().not() -> {
                     checkUserVerifiedAndNavigate()
                     it.success
                 }
-                !it.loading.isNullOrEmpty() -> it.loading
-                !it.warning.isNullOrEmpty() -> it.warning
+                it.loading.isNullOrEmpty().not() -> it.loading
+                it.warning.isNullOrEmpty().not() -> it.warning
                 else -> it.error
             }?.let { message ->
                 requireContext() toast message
@@ -109,6 +123,7 @@ class LoginFragment : Fragment() {
 
     private fun checkUserVerifiedAndNavigate() {
         val isUserVerified = loginViewModel.checkIfUserVerified()
+
         if (isUserVerified)
             this.navigate(LoginFragmentDirections.actionLoginFragmentToCoinFragment())
         else {
@@ -123,28 +138,5 @@ class LoginFragment : Fragment() {
                 afterTextChanged.invoke(editable.toString())
             }
         })
-    }
-
-    private fun Context.verifyEmail() {
-        MaterialAlertDialogBuilder(this)
-            .setTitle("WARNING")
-            .setMessage("Check your email to verify your address")
-            .setCancelable(false)
-            .setPositiveButton("Check") { dialogInterface: DialogInterface, i: Int ->
-                val intent = packageManager.getLaunchIntentForPackage("com.google.android.gm")
-                openGmail(intent)
-            }
-
-            .setNegativeButton("Discard") { dialogInterface: DialogInterface, i: Int ->
-                dialogInterface.dismiss()
-            }
-            .show()
-    }
-
-    private fun openGmail(intent: Intent?) {
-        if (intent != null)
-            startActivity(intent)
-        else
-            requireContext() toast "Please Install Gmail."
     }
 }

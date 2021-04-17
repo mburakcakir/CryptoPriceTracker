@@ -54,7 +54,7 @@ class CoinRepositoryImpl(
     override suspend fun getCoinsByParameter(parameter: String): Flow<Resource<List<CoinMarketItem>>> =
         flow {
             try {
-                emit(Resource.Success(cryptoDao.getCryptoByParameter("%$parameter%")))
+                emit(Resource.Success(cryptoDao.getCryptoByParameter(parameter)))
             } catch (e: Exception) {
                 emit(Resource.Error(e))
                 e.printStackTrace()

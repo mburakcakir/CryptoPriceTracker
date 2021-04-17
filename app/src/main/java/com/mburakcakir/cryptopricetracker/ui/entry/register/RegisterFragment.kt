@@ -40,20 +40,17 @@ class RegisterFragment : Fragment() {
     }
 
     private fun init() {
-        registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
-        registerViewModel.setEntryType(EntryType.REGISTER)
 
-        binding.btnRegister.setOnClickListener {
-            registerViewModel.insertUser(
-                binding.edtMail.text.toString(),
-                binding.edtPassword.text.toString()
-            )
-        }
+        setToolbar()
 
-        binding.edtMail.setText("muhburcak@gmail.com")
-        binding.edtPassword.setText("aaaaA4")
+        checkInputAndClick()
+
+        observeData()
 
 
+    }
+
+    private fun observeData() {
         registerViewModel.entryFormState.observe(viewLifecycleOwner, {
             binding.btnRegister.isEnabled = it.isDataValid
 
@@ -74,6 +71,22 @@ class RegisterFragment : Fragment() {
             }
         })
 
+    }
+
+    private fun checkInputAndClick() {
+        registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        registerViewModel.setEntryType(EntryType.REGISTER)
+
+        binding.btnRegister.setOnClickListener {
+            registerViewModel.insertUser(
+                binding.edtMail.text.toString(),
+                binding.edtPassword.text.toString()
+            )
+        }
+
+        binding.edtMail.setText("muhburcak@gmail.com")
+        binding.edtPassword.setText("aaaaA4")
+
         binding.edtMail.afterTextChanged {
             registerViewModel.isDataChanged(
                 EntryState.EMAIL,
@@ -87,20 +100,11 @@ class RegisterFragment : Fragment() {
                 binding.edtPassword.text.toString()
             )
         }
-
     }
 
-//    private fun insertUser() {
-//        val email = binding.edtMail.text.toString()
-//        val password = binding.edtPassword.text.toString()
-//
-//        val userModel = UserModel(
-//            email,
-//            password
-//        )
-//
-//        registerViewModel.insertUser(email,password)
-//    }
+    private fun setToolbar() {
+
+    }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         this.addTextChangedListener(object : CustomTextWatcher() {
