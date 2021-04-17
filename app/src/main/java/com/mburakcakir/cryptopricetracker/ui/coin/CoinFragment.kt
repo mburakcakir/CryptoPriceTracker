@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
 import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
+import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
@@ -19,6 +24,9 @@ class CoinFragment : Fragment() {
 
     private val coinViewModel by viewModel<CoinViewModel>()
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private lateinit var sharedPreferences: SharedPreferences
+
     private val networkController: NetworkControllerUtils by lazy {
         NetworkControllerUtils(requireContext()).apply {
             startNetworkCallback()
@@ -49,6 +57,8 @@ class CoinFragment : Fragment() {
         observeCoins()
 
         setRecyclerView()
+
+        repeatRequestByRefreshInterval()
     }
 
     private fun setToolbar() {
@@ -147,6 +157,19 @@ class CoinFragment : Fragment() {
             return true
         }
     }
+
+    private fun repeatRequestByRefreshInterval() {
+        sharedPreferences = SharedPreferences(requireContext())
+        this.lifecycleScope.launch(Dispatchers.IO) {
+            while (true) {
+                coinViewModel.getAllCoins()
+                sharedPreferences.getRefreshInterval()?.let {
+                    delay(Integer.parseInt(it).toLong() * 1000)
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

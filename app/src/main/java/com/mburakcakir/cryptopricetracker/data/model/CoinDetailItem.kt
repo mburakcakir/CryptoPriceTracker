@@ -26,7 +26,4 @@ data class CoinDetailItem(
 
     @SerializedName("last_updated")
     val lastUpdated: String,
-
-    @SerializedName("price_change_percentage_24h")
-    val priceChange24h: Double
 )

@@ -31,17 +31,4 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
                 _coinInfo.value = it
             }
     }
-
-    fun formatUpdatedTime(updateTime: String): String {
-        return "${updateTime.substring(0, 10)}, ${updateTime.substring(11, 19)}"
-    }
-
-    fun formatPriceChange(priceChange: Double): Double {
-        return String.format("%.2f", priceChange).replace(",", ".").toDouble()
-    }
-
-    fun setFavouriteMessage(isFavourite: Boolean): String {
-        return if (isFavourite) "Added" else "Removed"
-    }
-
 }

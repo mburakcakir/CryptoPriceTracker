@@ -24,8 +24,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgCoin"
                 loadImageFromUrl="@{coin.cryptoImage}"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/size_coin_image"
+                android:layout_height="@dimen/size_coin_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtCoinName" />
 

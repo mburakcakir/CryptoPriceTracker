@@ -3,6 +3,7 @@ package com.mburakcakir.cryptopricetracker.util.extension
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
+import com.bumptech.glide.Glide
 import com.mburakcakir.cryptopricetracker.R
 
 
@@ -10,6 +11,11 @@ import com.mburakcakir.cryptopricetracker.R
 fun ImageView.loadImage(imageUrl: String) {
 //    Glide.with(context).load(imageUrl).into(this)
     this.load(imageUrl)
+}
+
+@BindingAdapter("loadImageFromUrl2")
+fun ImageView.loadImage2(imageUrl: String) {
+    Glide.with(context).load(imageUrl).into(this)
 }
 
 @BindingAdapter("backgroundResource")

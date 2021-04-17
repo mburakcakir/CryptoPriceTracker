@@ -11,4 +11,8 @@ data class MarketData(
 
     @SerializedName("price_change_24h")
     val priceChange24h: Double,
+
+    @SerializedName("price_change_percentage_24h")
+    val priceChangePercentage24h: Double
+
 )

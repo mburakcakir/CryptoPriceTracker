@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="baseCoin"
             type="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
@@ -37,13 +36,12 @@
             android:visibility="@{state.viewVisibility}"
             tools:context=".ui.detail.CoinDetailFragment">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/imgIconImage"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/size_coin_image"
+                android:layout_height="@dimen/size_coin_image"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_big"
-                android:background="@drawable/ic_app_logo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:text="@{Double.toString(baseCoin.currentPrice) + ` $`}"
+                android:text="@{Double.toString(coinDetail.marketData.currentPrice.usd) + ` $`}"
                 android:textSize="@dimen/text_size_max"
                 app:layout_constraintStart_toEndOf="@id/imgIconImage"
                 app:layout_constraintTop_toTopOf="@id/imgIconImage" />
@@ -70,8 +68,8 @@
 
             <ImageView
                 android:id="@+id/imgMiddlePoint"
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:layout_width="@dimen/height_line_max"
+                android:layout_height="@dimen/height_line_max"
                 android:layout_marginStart="@dimen/margin_min"
                 android:background="@drawable/bg_custom_round"
                 app:layout_constraintBottom_toBottomOf="@id/txtCoinCurrentPriceTRY"
@@ -83,14 +81,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_min"
-                android:text="@{Double.toString(baseCoin.priceChangePercentage24h)}"
+                android:text="@{Double.toString(coinDetail.marketData.priceChangePercentage24h) + `%`}"
                 android:textSize="@dimen/text_size_min"
                 app:layout_constraintStart_toEndOf="@id/imgMiddlePoint"
                 app:layout_constraintTop_toTopOf="@id/txtCoinCurrentPriceTRY" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgChangeArrow"
-                backgroundResource="@{baseCoin.priceChangePercentage24h}"
+                backgroundResource="@{coinDetail.marketData.priceChangePercentage24h}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_min"
@@ -124,50 +122,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_min"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Change(24h): ` + Double.toString(baseCoin.priceChange24h) + ` $`}"
+                android:text="@{`Change(24h): ` + Double.toString(coinDetail.marketData.priceChange24h) + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtHigh" />
 
             <View
                 android:id="@+id/viewSeperator"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/height_line_min"
                 android:layout_marginTop="@dimen/margin_max"
                 android:background="@color/darkGray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgIconImage" />
-
-            <!--        <com.google.android.material.textfield.TextInputLayout-->
-            <!--            android:id="@+id/layoutInterval"-->
-            <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="@dimen/margin_profile_item"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintEnd_toStartOf="@id/btnApprove"-->
-            <!--            android:layout_marginEnd="@dimen/margin_big"-->
-            <!--            android:layout_marginStart="@dimen/margin_big"-->
-            <!--            app:layout_constraintTop_toBottomOf="@id/viewSeperator">-->
-
-            <!--            <com.google.android.material.textfield.TextInputEditText-->
-            <!--                android:id="@+id/edtInterval"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:drawableStart="@drawable/ic_timelapse"-->
-            <!--                android:drawablePadding="@dimen/margin_min"-->
-            <!--                android:inputType="textPersonName" />-->
-
-            <!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-            <!--        <Button-->
-            <!--            android:id="@+id/btnApprove"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            app:layout_constraintHorizontal_weight="0.3"-->
-            <!--            android:text="asda"-->
-            <!--            app:layout_constraintTop_toTopOf="@id/layoutInterval"-->
-            <!--            app:layout_constraintBottom_toBottomOf="@id/layoutInterval"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
             <TextView
                 android:id="@+id/txtCoinHashingAlgorithm"
@@ -186,6 +152,42 @@
                 android:text="@{`Description:` + coinDetail.description.en}"
                 app:layout_constraintTop_toBottomOf="@id/txtCoinHashingAlgorithm" />
 
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutInterval"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_big"
+                android:layout_marginTop="@dimen/margin_profile_item"
+                android:layout_marginEnd="@dimen/margin_big"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCoinDescription">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtInterval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_timelapse"
+                    android:drawablePadding="@dimen/margin_min"
+                    android:hint="Refresh time(sec)"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnApprove"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_min"
+                android:layout_marginEnd="@dimen/margin_min"
+                android:text="approve minute"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layoutInterval" />
+
             <TextView
                 android:id="@+id/txtLastUpdated"
                 android:layout_width="match_parent"
@@ -193,7 +195,7 @@
                 android:background="@color/gray"
                 android:gravity="center"
                 android:padding="@dimen/margin_min"
-                android:text="@{`Last Updated: `+ baseCoin.lastUpdated}"
+                android:text="@{`Last Updated: `+ coinDetail.lastUpdated}"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -34,20 +34,12 @@ class RegisterFragment : Fragment() {
         init()
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
-    }
-
     private fun init() {
-
         setToolbar()
 
         checkInputAndClick()
 
         observeData()
-
-
     }
 
     private fun observeData() {
@@ -112,5 +104,10 @@ class RegisterFragment : Fragment() {
                 afterTextChanged.invoke(editable.toString())
             }
         })
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
