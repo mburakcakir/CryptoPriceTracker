@@ -15,3 +15,5 @@ infix fun Fragment.navigate(navDirections: NavDirections) {
 }
 
 fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
+fun String.format() = "%$this%"
