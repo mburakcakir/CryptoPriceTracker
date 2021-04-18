@@ -36,18 +36,26 @@ class FavouriteCoinsFragment : Fragment() {
     }
 
     private fun init() {
-        binding.state = FavouriteCoinsViewState(Status.LOADING)
+
         setRecyclerView()
 
         observeCoins()
-
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    private fun setRecyclerView() {
+        binding.state = FavouriteCoinsViewState(Status.LOADING)
+
+        binding.rvFavouriteCoinList.adapter = favouriteCoinAdapter
+
+        favouriteCoinAdapter.setCoinOnClickListener {
+            this.navigate(
+                FavouriteCoinsFragmentDirections.actionFavouriteCoinsFragmentToCoinDetailFragment(
+                    it
+                )
+            )
+        }
     }
+
 
     private fun observeCoins() {
         favouriteCoinViewModel.getAllFavourites()
@@ -62,16 +70,8 @@ class FavouriteCoinsFragment : Fragment() {
         }
     }
 
-    private fun setRecyclerView() {
-        binding.rvFavouriteCoinList.adapter = favouriteCoinAdapter
-
-        favouriteCoinAdapter.setCoinOnClickListener {
-            this.navigate(
-                FavouriteCoinsFragmentDirections.actionFavouriteCoinsFragmentToCoinDetailFragment(
-                    it
-                )
-            )
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
-
 }

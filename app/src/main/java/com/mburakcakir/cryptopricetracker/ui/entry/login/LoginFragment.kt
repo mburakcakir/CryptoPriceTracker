@@ -39,14 +39,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun init() {
-        setToolbar()
-
-        checkInputAndClick()
+        setInputAndClick()
 
         observeData()
     }
 
-    private fun checkInputAndClick() {
+    private fun setInputAndClick() {
         (requireActivity() as MainActivity).changeToolbarVisibility(View.GONE)
 
         loginViewModel.setEntryType(EntryType.LOGIN)
@@ -79,10 +77,6 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun setToolbar() {
-
-    }
-
     private fun observeData() {
         loginViewModel.entryFormState.observe(viewLifecycleOwner, {
             binding.btnLogin.isEnabled = it.isDataValid
@@ -101,17 +95,14 @@ class LoginFragment : Fragment() {
         }
 
         loginViewModel.resultEntry.observe(viewLifecycleOwner) {
-            when {
-                it.success.isNullOrEmpty().not() -> {
-                    checkUserVerifiedAndNavigate()
-                    it.success
-                }
-                it.loading.isNullOrEmpty().not() -> it.loading
-                it.warning.isNullOrEmpty().not() -> it.warning
-                else -> it.error
-            }?.let { message ->
-                requireContext() toast message
+            var resultMessage = if (it) {
+                checkUserVerifiedAndNavigate()
+                getString(R.string.login_success)
+            } else {
+                getString(R.string.login_error)
             }
+
+            requireContext() toast resultMessage
         }
     }
 

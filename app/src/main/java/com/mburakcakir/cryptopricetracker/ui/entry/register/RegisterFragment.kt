@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentRegisterBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
 import com.mburakcakir.cryptopricetracker.util.enums.EntryState
@@ -35,34 +36,10 @@ class RegisterFragment : Fragment() {
     }
 
     private fun init() {
-        setToolbar()
 
         checkInputAndClick()
 
         observeData()
-    }
-
-    private fun observeData() {
-        registerViewModel.entryFormState.observe(viewLifecycleOwner, {
-            binding.btnRegister.isEnabled = it.isDataValid
-
-            if (!it.emailError.isNullOrEmpty())
-                binding.edtMail.error = it.emailError
-
-            if (!it.passwordError.isNullOrEmpty())
-                binding.edtPassword.error = it.passwordError
-
-        })
-
-        registerViewModel.resultEntry.observe(viewLifecycleOwner, {
-            it.error?.let { error ->
-                requireContext() toast error
-            }
-            it.success?.let { success ->
-                this.navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
-            }
-        })
-
     }
 
     private fun checkInputAndClick() {
@@ -91,8 +68,28 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun setToolbar() {
+    private fun observeData() {
+        registerViewModel.entryFormState.observe(viewLifecycleOwner, {
+            binding.btnRegister.isEnabled = it.isDataValid
 
+            if (!it.emailError.isNullOrEmpty())
+                binding.edtMail.error = it.emailError
+
+            if (!it.passwordError.isNullOrEmpty())
+                binding.edtPassword.error = it.passwordError
+
+        })
+
+        registerViewModel.resultEntry.observe(viewLifecycleOwner) {
+            val resultMessage = if (it) {
+                this.navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                getString(R.string.register_success)
+            } else {
+                getString(R.string.register_error)
+            }
+
+            requireContext() toast resultMessage
+        }
     }
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {

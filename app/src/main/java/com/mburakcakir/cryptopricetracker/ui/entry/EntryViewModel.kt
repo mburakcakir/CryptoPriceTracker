@@ -17,8 +17,8 @@ open class EntryViewModel : BaseViewModel() {
     private lateinit var entryType: EntryType
     private var typeList: MutableList<String?> = mutableListOf()
 
-    val _resultEntry = MutableLiveData<ResultEntry>()
-    val resultEntry: LiveData<ResultEntry> = _resultEntry
+    val _resultEntry = MutableLiveData<Boolean>()
+    val resultEntry: LiveData<Boolean> = _resultEntry
 
     init {
         _entryForm.value = EntryFormState()

@@ -1,10 +1,10 @@
 package com.mburakcakir.cryptopricetracker.ui.entry.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mburakcakir.cryptopricetracker.ui.entry.EntryViewModel
-import com.mburakcakir.cryptopricetracker.ui.entry.ResultEntry
 import kotlinx.coroutines.launch
 
 class LoginViewModel : EntryViewModel() {
@@ -12,13 +12,13 @@ class LoginViewModel : EntryViewModel() {
     private val _isVerifiedSent = MutableLiveData<Boolean>()
     val isVerifiedSent: LiveData<Boolean> = _isVerifiedSent
 
-
     fun login(email: String, password: String) = viewModelScope.launch {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-            _resultEntry.postValue(ResultEntry(success = "Giriş Yapıldı"))
-        }
-            .addOnFailureListener {
-                _resultEntry.postValue(ResultEntry(error = "Giriş Yapılamadı"))
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                _resultEntry.postValue(true)
+            }.addOnFailureListener { exception ->
+                _resultEntry.postValue(false)
+                Log.v("errorLogin", exception.toString())
             }
     }
 

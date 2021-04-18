@@ -13,8 +13,12 @@
 
     <item
         android:id="@+id/favouriteCoinsFragment"
-        android:title="ProfileImage"
-        android:icon="@drawable/ic_email"
-        app:showAsAction="always" />
+        android:title="Favourite Coins"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_exit_app"
+        android:title="Exit App"
+        app:showAsAction="never" />
 
 </menu>
