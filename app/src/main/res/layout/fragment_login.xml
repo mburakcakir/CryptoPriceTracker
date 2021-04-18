@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <import type="com.mburakcakir.cryptopricetracker.util.enums.EntryState" />
+
+        <variable
+            name="loginViewModel"
+            type="com.mburakcakir.cryptopricetracker.ui.entry.login.LoginViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/margin_medium"
+        tools:context=".ui.entry.login.LoginFragment">
+
+        <ImageView
+            android:id="@+id/ic_app_logo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/margin_max"
+            android:src="@drawable/ic_app_logo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_max"
+            android:gravity="center"
+            android:text="@string/login_welcome"
+            app:layout_constraintTop_toBottomOf="@id/ic_app_logo" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/txtLoginMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginBottom="@dimen/margin_profile_item"
+            android:gravity="center"
+            android:text="@string/login_message"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/txtWelcome" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_profile_item"
+            app:layout_constraintTop_toBottomOf="@id/txtLoginMessage">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/margin_min"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                app:counterEnabled="true"
+                app:counterMaxLength="15"
+                app:error="@{TextUtils.isEmpty(loginViewModel.entryFormState.emailError)? null : loginViewModel.entryFormState.emailError}"
+                app:errorEnabled="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_big"
+            app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="@dimen/margin_min"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                app:error="@{TextUtils.isEmpty(loginViewModel.entryFormState.passwordError)? null : loginViewModel.entryFormState.passwordError}"
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_big"
+            android:enabled="@{loginViewModel.entryFormState.dataValid}"
+            android:text="@string/login"
+            android:textSize="@dimen/text_size_big"
+            app:layout_constraintTop_toBottomOf="@+id/layoutPassword" />
+
+        <View
+            android:id="@+id/bottomView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/btnLogin"
+            tools:layout_editor_absoluteX="@dimen/margin_medium" />
+
+        <TextView
+            android:id="@+id/txtCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:padding="@dimen/margin_medium"
+            android:text="@string/login_check_user"
+            android:textSize="@dimen/text_size_big"
+            app:layout_constraintEnd_toStartOf="@id/btnRegister"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/bottomView"
+            app:layout_constraintTop_toTopOf="@id/bottomView" />
+
+        <TextView
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:text="@string/login_message_register"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/bottomView"
+            app:layout_constraintStart_toEndOf="@id/txtCheck"
+            app:layout_constraintTop_toTopOf="@id/bottomView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

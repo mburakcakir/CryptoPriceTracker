@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 
@@ -98,9 +99,12 @@ dependencies {
     // Firebase Storage
     implementation "com.firebaseui:firebase-ui-storage:$firebaseUiVersion"
 
-    // Firebase Auth and Analytics
+    // Firebase Auth, CloudFirestore And Analytics
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
     implementation "com.google.firebase:firebase-auth:$firebaseAuthVersion"
+    implementation platform("com.google.firebase:firebase-bom:$firebaseBomVersion")
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation "com.google.firebase:firebase-firestore-ktx:$firestoreVersion"
 
     // Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
@@ -111,6 +115,12 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:$coilVersion")
+
+    // Koin
+    implementation "io.insert-koin:koin-android:$koinVersion"
+    implementation "io.insert-koin:koin-android-ext:$koinVersion"
+
+
 
 
 }

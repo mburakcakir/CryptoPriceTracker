@@ -8,19 +8,55 @@
     <fragment
         android:id="@+id/coinFragment"
         android:name="com.mburakcakir.cryptopricetracker.ui.coin.CoinFragment"
-        android:label="fragment_coin"
+        android:label="Coin Price Tracker"
         tools:layout="@layout/fragment_coin">
         <action
             android:id="@+id/action_coinFragment_to_coinDetailFragment"
             app:destination="@id/coinDetailFragment" />
+        <action
+            android:id="@+id/action_coinFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/coinDetailFragment"
         android:name="com.mburakcakir.cryptopricetracker.ui.detail.CoinDetailFragment"
-        android:label="fragment_coin_detail"
+        android:label="Coin Details"
         tools:layout="@layout/fragment_coin_detail">
         <argument
-            android:name="baseCoin"
-            app:argType="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
+            android:name="coinID"
+            app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.mburakcakir.cryptopricetracker.ui.entry.login.LoginFragment"
+        android:label="Login "
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_coinFragment"
+            app:destination="@id/coinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.mburakcakir.cryptopricetracker.ui.entry.register.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteCoinsFragment"
+        android:name="com.mburakcakir.cryptopricetracker.ui.favourite.FavouriteCoinsFragment"
+        android:label="Favourite Coins"
+        tools:layout="@layout/fragment_favourite_coins">
+        <action
+            android:id="@+id/action_favouriteCoinsFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment" />
+    </fragment>
+
 </navigation>

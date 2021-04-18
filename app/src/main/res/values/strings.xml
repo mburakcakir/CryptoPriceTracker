@@ -1,13 +1,66 @@
 <resources>
     <string name="app_name">CryptoPriceTracker</string>
+
+    <!-- login -->
+    <string name="login_welcome">Welcome</string>
+    <string name="login_message">Login with your email</string>
+    <string name="login_check_user">Not a member?</string>
+    <string name="login_message_register">Sign Up Now</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="login_again">Login Again</string>
+    <string name="login_loading">Logging..</string>
+    <string name="login_warning">User not found</string>
+    <string name="login_success">Login successful</string>
+    <string name="login_error">An error occurred in the user registration.</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+
+    <!-- register -->
+    <string name="register_loading">Registering..</string>
+    <string name="register_warning">User already registered</string>
+    <string name="register_success">Registration successful</string>
+    <string name="register_error">Registering..</string>
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <!-- crypto -->
+    <string name="coin_loading">Saving..</string>
+    <string name="coin_success">Saved</string>
+    <string name="coin_error">Failed to save</string>
+    <string name="coin_refresh_time_sec">Refresh time(sec)</string>
+    <string name="coin_description">Description</string>
+    <string name="coin_hashing_algorithm">Hashing Algorithm</string>
+    <string name="coin_highest_price_24h">Highest(24h):</string>
+    <string name="coin_lowest_price_24h">Lowest(24h):</string>
+    <string name="coin_refresh_time">Refresh Time (sec) </string>
+    <string name="coin_search">Search a coin</string>
+    <string name="coin_name">Coin Name</string>
+    <string name="coin_price_change">Coin Price Change</string>
+    <string name="coin_symbol">Coin Symbol</string>
+    <string name="coin_current_price">Coin Current Price</string>
+
+    <!-- favourite -->
+    <string name="favourite_add_success">Successfully added to favorites.</string>
+    <string name="favourite_delete_success">Successfully removed from favorites.</string>
+    <string name="favourite_add_error">Failed to add.</string>
+
+    <!-- general -->
+    <string name="error_email_address">Email address not found.</string>
+    <string name="check_email_address">We sent you a validation.\nCheck your email to verify your address.</string>
+    <string name="warning">WARNING</string>
+    <string name="check">CHECK</string>
+    <string name="discard">DISCARD</string>
+    <string name="error_install_gmail">Please Install Gmail</string>
+    <string name="gmail_package_name">com.google.android.gm</string>
     <string name="loading">Loading</string>
     <string name="success">Success</string>
     <string name="error">Error</string>
     <string name="error_result">Error Data</string>
-    <string name="coin_name">Coin Name</string>
-    <string name="coin_price_change">Coin Price Change</string>
-    <string name="coin_current_price">Coin Current Price</string>
-    <string name="error_internet_connection">İnternet bağlantısı sağlanamadı.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_internet_connection">Internet disconnected.</string>
+
+
 </resources>

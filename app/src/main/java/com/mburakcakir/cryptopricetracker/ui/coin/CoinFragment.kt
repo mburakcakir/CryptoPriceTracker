@@ -1,27 +1,31 @@
 package com.mburakcakir.cryptopricetracker.ui.coin
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
-import com.mburakcakir.cryptopricetracker.utils.NetworkController
-import com.mburakcakir.cryptopricetracker.utils.Status
-import com.mburakcakir.cryptopricetracker.utils.navigate
+import com.mburakcakir.cryptopricetracker.ui.MainActivity
+import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
+import com.mburakcakir.cryptopricetracker.util.SharedPreferences
+import com.mburakcakir.cryptopricetracker.util.enums.Status
+import com.mburakcakir.cryptopricetracker.util.navigate
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
     private var coinAdapter = CoinAdapter()
 
-    private val coinViewModel: CoinViewModel by lazy {
-        ViewModelProvider(this).get(CoinViewModel::class.java)
-    }
+    private val coinViewModel by viewModel<CoinViewModel>()
+    private lateinit var firebaseAuth: FirebaseAuth
 
-    private val networkController: NetworkController by lazy {
-        NetworkController(requireContext()).apply {
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private val networkController: NetworkControllerUtils by lazy {
+        NetworkControllerUtils(requireContext()).apply {
             startNetworkCallback()
         }
     }
@@ -36,37 +40,79 @@ class CoinFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+        checkIfUserLoggedIn()
     }
 
     private fun init() {
 
-        checkInternetConnection()
-        setAdapter()
+        setToolbar()
+
+        setSwipeRefreshLayout()
+
+        checkInternetConnectionAndFetchData()
+
         observeCoins()
 
+        setRecyclerView()
 
-
+        repeatRequestByRefreshInterval()
     }
 
-    private fun setAdapter() {
-        binding.rvCoinList.adapter = coinAdapter
+    private fun setToolbar() {
+        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
+        setHasOptionsMenu(true)
+    }
 
-        coinAdapter.setCoinOnClickListener {
-            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it))
+    private fun setSwipeRefreshLayout() {
+        binding.state = CoinViewState(Status.LOADING)
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            coinViewModel.getAllCoins()
+
+        }
+    }
+
+    private fun checkInternetConnectionAndFetchData() {
+        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
+            if (isInternetConnected) checkCoinData()
+            else binding.state = CoinViewState(Status.ERROR)
         }
     }
 
     private fun observeCoins() {
         coinViewModel.allCoins.observe(viewLifecycleOwner) {
             when (it.status) {
-                Status.SUCCESS -> coinAdapter.submitList(it.data)
+                Status.SUCCESS -> {
+                    coinAdapter.submitList(it.data)
+                    coinViewModel.insertAllCoins(it.data!!)
+
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
             binding.state = CoinViewState(it.status)
         }
     }
 
-    private fun checkStationDataAndSetState() {
+    private fun checkIfUserLoggedIn() {
+        firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser != null) {
+                init()
+        } else {
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
+        }
+
+    }
+
+    private fun setRecyclerView() {
+        binding.rvCoinList.adapter = coinAdapter
+
+        coinAdapter.setCoinOnClickListener {
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.cryptoID))
+        }
+    }
+
+    private fun checkCoinData() {
         if (coinViewModel.allCoins.value == null)
             coinViewModel.getAllCoins()
         else {
@@ -74,13 +120,52 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun checkInternetConnection() {
 
-        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
-            if (isInternetConnected)
-                checkStationDataAndSetState()
-            else
-                binding.state = CoinViewState(Status.ERROR)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_coin_list, menu)
+
+        val searchItem = menu.findItem(R.id.action_search).apply {
+//            expandActionView()
         }
+
+        val searchView = searchItem?.actionView as SearchView
+
+        searchView.apply {
+            queryHint = getString(R.string.coin_search)
+            setOnQueryTextListener(onQueryTextListener)
+        }
+
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private val onQueryTextListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (newText.isNullOrEmpty().not()) coinViewModel.getCoinsByParameter(newText!!)
+            else coinViewModel.getAllCoins()
+
+            return true
+        }
+    }
+
+    private fun repeatRequestByRefreshInterval() {
+//        sharedPreferences = SharedPreferences(requireContext())
+//        sharedPreferences.getRefreshInterval()?.let {
+//            this.lifecycleScope.launch(Dispatchers.IO) {
+//                while (true) {
+//                    coinViewModel.getAllCoins()
+//                    delay(Integer.parseInt(it).toLong() * 1000)
+//                }
+//            }
+//
+//        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

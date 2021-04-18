@@ -15,8 +15,8 @@
     <dimen name="bottom_sheet_corner_radius">16dp</dimen>
     <dimen name="bottom_sheet_top_padding">8dp</dimen>
 
-    <dimen name="height_line">1dp</dimen>
-    <dimen name="height_line_heighter">3dp</dimen>
+    <dimen name="height_line_min">1dp</dimen>
+    <dimen name="height_line_max">3dp</dimen>
 
     <dimen name="card_corner_radius">6dp</dimen>
 
@@ -27,4 +27,6 @@
 
     <dimen name="size_lottie_animation">200dp</dimen>
     <dimen name="size_info_image">32dp</dimen>
+    <dimen name="size_coin_image">48dp</dimen>
+    <dimen name="size_coin_image_min">32dp</dimen>
 </resources>
