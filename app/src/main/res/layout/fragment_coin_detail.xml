@@ -5,10 +5,6 @@
 
     <data>
         <variable
-            name="baseCoin"
-            type="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
-
-        <variable
             name="coinDetail"
             type="com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem" />
 
@@ -102,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_big"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Lowest(24h): ` + baseCoin.lowestPrice24h + ` $`}"
+                android:text="@{`Lowest(24h): ` + coinDetail.marketData.lowestPrice24h.usd + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_min"
                 android:layout_marginEnd="@dimen/margin_big"
-                android:text="@{`Highest(24h): ` + baseCoin.highestPrice24h + ` $`}"
+                android:text="@{`Highest(24h): ` + coinDetail.marketData.highestPrice24h.usd + ` $`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txtLow" />
 

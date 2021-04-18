@@ -8,8 +8,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
-import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
-import com.mburakcakir.cryptopricetracker.data.model.FavouriteCryptoModel
+import com.mburakcakir.cryptopricetracker.data.model.FavouriteCoinModel
 import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.util.Resource
@@ -51,15 +50,15 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
             }
     }
 
-    fun addToFavourites(baseCoin: CoinMarketItem) {
-        val favouriteCryptoModel = FavouriteCryptoModel(
-            baseCoin.cryptoID,
-            baseCoin.cryptoImage,
-            baseCoin.name,
-            baseCoin.symbol
+    fun addToFavourites(coinDetail: CoinDetailItem) {
+        val favouriteCryptoModel = FavouriteCoinModel(
+            coinDetail.id,
+            coinDetail.image.small,
+            coinDetail.name,
+            coinDetail.symbol
         )
 
-        val favouriteDocument = db.document(baseCoin.cryptoID)
+        val favouriteDocument = db.document(coinDetail.id)
 
         favouriteDocument.set(favouriteCryptoModel)
             .addOnSuccessListener {

@@ -12,9 +12,9 @@
         app:showAsAction="always|collapseActionView" />
 
     <item
-        android:id="@+id/profileFragment"
+        android:id="@+id/favouriteCoinsFragment"
         android:title="ProfileImage"
-        app:actionLayout="@layout/layout_profile"
+        android:icon="@drawable/ic_email"
         app:showAsAction="always" />
 
 </menu>

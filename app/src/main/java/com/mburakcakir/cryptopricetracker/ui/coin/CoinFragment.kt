@@ -108,7 +108,7 @@ class CoinFragment : Fragment() {
         binding.rvCoinList.adapter = coinAdapter
 
         coinAdapter.setCoinOnClickListener {
-            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it))
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.cryptoID))
         }
     }
 

@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
-import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinDetailBinding
 import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
@@ -29,7 +28,7 @@ class CoinDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args by navArgs<CoinDetailFragmentArgs>()
-    private lateinit var baseCoin: CoinMarketItem
+    private lateinit var coinID: String
 
     private val coinDetailViewModel by viewModel<CoinDetailViewModel>()
     private var isFavourite: Boolean = false
@@ -54,20 +53,20 @@ class CoinDetailFragment : Fragment() {
     private fun init() {
         setData()
 
-        setToolbar()
-
         observeData()
+
+        setToolbar()
     }
 
     private fun setData() {
-        baseCoin = args.baseCoin
+        coinID = args.coinID
         binding.state = CoinDetailViewState(Status.LOADING)
         sharedPreferences = SharedPreferences(requireContext())
         sharedPreferences.getRefreshInterval()?.let {
             binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
         }
         binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
-        coinDetailViewModel.isFavourite(baseCoin.cryptoID)
+        coinDetailViewModel.isFavourite(coinID)
         coinDetailViewModel.getAllFavourites()
 
         binding.btnApprove.setOnClickListener {
@@ -77,10 +76,6 @@ class CoinDetailFragment : Fragment() {
 
     private fun setToolbar() {
         setHasOptionsMenu(true)
-
-        (requireActivity() as MainActivity).supportActionBar?.apply {
-            title = "${baseCoin.name} (${baseCoin.symbol})"
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -93,9 +88,9 @@ class CoinDetailFragment : Fragment() {
         when (item.itemId) {
             R.id.action_fav -> {
                 if (isFavourite)
-                    coinDetailViewModel.deleteFavourite(baseCoin.cryptoID)
+                    coinDetailViewModel.deleteFavourite(coinID)
                 else
-                    coinDetailViewModel.addToFavourites(baseCoin)
+                    coinDetailViewModel.addToFavourites(coinDetailViewModel.coinInfo.value?.data!!)
 
                 isFavourite = !isFavourite
                 item.changeIconColor(isFavourite)
@@ -105,7 +100,7 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun observeData() {
-        coinDetailViewModel.getCoinByID(baseCoin.cryptoID)
+        coinDetailViewModel.getCoinByID(coinID)
         coinDetailViewModel.coinInfo.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> setCoinDetails(it.data!!)
@@ -134,8 +129,10 @@ class CoinDetailFragment : Fragment() {
 
     private fun setCoinDetails(coinDetails: CoinDetailItem) {
         binding.coinDetail = setCoinDetail(coinDetails)
-        binding.baseCoin = baseCoin
-        Glide.with(requireContext()).load(baseCoin.cryptoImage).into(binding.imgIconImage)
+        (requireActivity() as MainActivity).supportActionBar?.apply {
+            title = "${coinDetails.name} (${coinDetails.symbol})"
+        }
+        Glide.with(requireContext()).load(coinDetails.image.small).into(binding.imgIconImage)
     }
 
     private infix fun MenuItem.changeIconColor(isFavourite: Boolean) {
@@ -150,7 +147,7 @@ class CoinDetailFragment : Fragment() {
     private fun repeatRequestByRefreshInterval(refreshInterval: Int) {
         this.lifecycleScope.launch(Dispatchers.IO) {
             while (true) {
-                coinDetailViewModel.getCoinByID(baseCoin.cryptoID)
+                coinDetailViewModel.getCoinByID(coinID)
                 sharedPreferences.saveRefreshInterval(refreshInterval)
                 delay(refreshInterval.toLong() * 1000)
             }

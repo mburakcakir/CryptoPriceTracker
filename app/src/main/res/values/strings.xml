@@ -6,6 +6,7 @@
     <string name="error_result">Error Data</string>
     <string name="coin_name">Coin Name</string>
     <string name="coin_price_change">Coin Price Change</string>
+    <string name="coin_symbol">Coin Symbol</string>
     <string name="coin_current_price">Coin Current Price</string>
     <string name="error_internet_connection">İnternet bağlantısı sağlanamadı.</string>
     <!-- TODO: Remove or change this placeholder text -->

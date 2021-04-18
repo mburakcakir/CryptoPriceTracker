@@ -12,6 +12,7 @@ import com.mburakcakir.cryptopricetracker.ui.coin.CoinViewModel
 import com.mburakcakir.cryptopricetracker.ui.detail.CoinDetailViewModel
 import com.mburakcakir.cryptopricetracker.ui.entry.login.LoginViewModel
 import com.mburakcakir.cryptopricetracker.ui.entry.register.RegisterViewModel
+import com.mburakcakir.cryptopricetracker.ui.favourite.FavouriteCoinsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.binds
@@ -24,6 +25,7 @@ val viewModelModule = module {
     viewModel { CoinDetailViewModel(get()) }
     viewModel { LoginViewModel() }
     viewModel { RegisterViewModel() }
+    viewModel { FavouriteCoinsViewModel() }
 }
 
 val repositoryModule = module {
