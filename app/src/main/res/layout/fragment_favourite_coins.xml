@@ -8,7 +8,7 @@
 
         <variable
             name="state"
-            type="com.mburakcakir.cryptopricetracker.ui.coin.CoinViewState" />
+            type="com.mburakcakir.cryptopricetracker.ui.favourite.FavouriteCoinsViewState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,16 +24,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
+                android:visibility="@{state.recyclerViewVisibility}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <!--            <ProgressBar-->
-            <!--                android:id="@+id/progressBar"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="center"-->
-            <!--              />-->
-            <!--            android:visibility="@{state.recyclerViewVisibility}"-->
-            <!--            android:visibility="@{state.progressBarVisibility}"-->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{state.progressBarVisibility}" />
 
         </FrameLayout>
 

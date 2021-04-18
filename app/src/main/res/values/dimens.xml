@@ -28,4 +28,5 @@
     <dimen name="size_lottie_animation">200dp</dimen>
     <dimen name="size_info_image">32dp</dimen>
     <dimen name="size_coin_image">48dp</dimen>
+    <dimen name="size_coin_image_min">32dp</dimen>
 </resources>

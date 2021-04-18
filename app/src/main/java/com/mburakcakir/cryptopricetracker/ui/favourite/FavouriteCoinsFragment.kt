@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,6 +36,7 @@ class FavouriteCoinsFragment : Fragment() {
     }
 
     private fun init() {
+        binding.state = FavouriteCoinsViewState(Status.LOADING)
         setRecyclerView()
 
         observeCoins()
@@ -48,8 +50,14 @@ class FavouriteCoinsFragment : Fragment() {
     }
 
     private fun observeCoins() {
+        favouriteCoinViewModel.getAllFavourites()
+
         favouriteCoinViewModel.favouriteCoins.observe(viewLifecycleOwner) {
             favouriteCoinAdapter.submitList(it)
+        }
+        favouriteCoinViewModel.coinState.observe(viewLifecycleOwner) {
+            val status = if (it) Status.SUCCESS else Status.ERROR
+            binding.state = FavouriteCoinsViewState(status)
         }
     }
 
