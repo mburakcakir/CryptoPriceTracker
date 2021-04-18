@@ -112,8 +112,7 @@
                         android:text="@string/coin_lowest_price_24h"
                         android:textSize="@dimen/text_size_min"
                         app:layout_constraintBottom_toBottomOf="@id/txtCoinLow"
-
-                        app:layout_constraintStart_toStartOf="@id/txtHigh"
+                        app:layout_constraintEnd_toStartOf="@id/txtCoinLow"
                         app:layout_constraintTop_toTopOf="@id/txtCoinLow" />
 
                     <TextView
@@ -125,7 +124,6 @@
                         android:text="@{coinDetail.marketData.lowestPrice24h.usd + ` $`}"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/txtCoinHigh"
                         app:layout_constraintTop_toTopOf="@id/imgIconImage" />
 
                     <TextView

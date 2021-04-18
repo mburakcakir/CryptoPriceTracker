@@ -41,7 +41,7 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
                 _result.value = Result(loading = R.string.loading)
             }
             .catch {
-                it.message
+                Log.v("errorGetAllCoins", it.message.toString())
             }
             .collect {
                 _allCoins.value = it
@@ -56,13 +56,20 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
             .collect {
                 when (it.status) {
                     Status.SUCCESS -> {
-                        it.data?.let {
-                            if (it) Result(success = R.string.coin_success)
+                        it.data?.let { coinInserted ->
+                            if (coinInserted) Result(success = R.string.coin_success)
                         }
                     }
                     Status.ERROR -> Result(success = R.string.coin_error)
-
                 }
             }
+    }
+
+    fun endSession() {
+        firebaseAuth.signOut()
+    }
+
+    fun checkIfUserLoggedIn(): Boolean {
+        return firebaseAuth.currentUser != null
     }
 }

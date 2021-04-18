@@ -4,23 +4,25 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
-import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
-    private var coinAdapter = CoinAdapter()
 
+    private var coinAdapter = CoinAdapter()
     private val coinViewModel by viewModel<CoinViewModel>()
-    private lateinit var firebaseAuth: FirebaseAuth
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -51,15 +53,25 @@ class CoinFragment : Fragment() {
 
         checkInternetConnectionAndFetchData()
 
-        observeCoins()
-
         setRecyclerView()
 
+        observeCoins()
+
         repeatRequestByRefreshInterval()
+
+    }
+
+    private fun checkIfUserLoggedIn() {
+        val sessionState = coinViewModel.checkIfUserLoggedIn()
+
+        if (sessionState)
+            init()
+        else
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
+
     }
 
     private fun setToolbar() {
-        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
         setHasOptionsMenu(true)
     }
 
@@ -74,10 +86,33 @@ class CoinFragment : Fragment() {
     }
 
     private fun checkInternetConnectionAndFetchData() {
-        networkController.isNetworkConnected.observe(viewLifecycleOwner) { isInternetConnected ->
-            if (isInternetConnected) checkCoinData()
+        networkController.isNetworkConnected.observe(viewLifecycleOwner) { internetConnected ->
+            if (internetConnected) checkIsDataFetched()
             else binding.state = CoinViewState(Status.ERROR)
         }
+    }
+
+    private fun checkIsDataFetched() {
+        if (coinViewModel.allCoins.value?.data == null)
+            coinViewModel.getAllCoins()
+        else {
+            binding.state = CoinViewState(Status.SUCCESS)
+        }
+    }
+
+    private fun setRecyclerView() {
+        binding.rvCoinList.adapter = coinAdapter
+
+        coinAdapter.setCoinOnClickListener {
+            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.cryptoID))
+        }
+
+        coinAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.rvCoinList.smoothScrollToPosition(positionStart)
+            }
+        })
     }
 
     private fun observeCoins() {
@@ -94,32 +129,18 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun checkIfUserLoggedIn() {
-        firebaseAuth = FirebaseAuth.getInstance()
-        if (firebaseAuth.currentUser != null) {
-                init()
-        } else {
-            this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
-        }
+    private fun repeatRequestByRefreshInterval() {
+        sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.getRefreshInterval()?.let {
+            this.lifecycleScope.launch(Dispatchers.IO) {
+                while (true) {
+                    coinViewModel.getAllCoins()
+                    delay(Integer.parseInt(it).toLong() * 1000)
+                }
+            }
 
-    }
-
-    private fun setRecyclerView() {
-        binding.rvCoinList.adapter = coinAdapter
-
-        coinAdapter.setCoinOnClickListener {
-            this.navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.cryptoID))
         }
     }
-
-    private fun checkCoinData() {
-        if (coinViewModel.allCoins.value == null)
-            coinViewModel.getAllCoins()
-        else {
-            binding.state = CoinViewState(Status.SUCCESS)
-        }
-    }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_coin_list, menu)
@@ -151,17 +172,14 @@ class CoinFragment : Fragment() {
         }
     }
 
-    private fun repeatRequestByRefreshInterval() {
-//        sharedPreferences = SharedPreferences(requireContext())
-//        sharedPreferences.getRefreshInterval()?.let {
-//            this.lifecycleScope.launch(Dispatchers.IO) {
-//                while (true) {
-//                    coinViewModel.getAllCoins()
-//                    delay(Integer.parseInt(it).toLong() * 1000)
-//                }
-//            }
-//
-//        }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_exit_app -> {
+                coinViewModel.endSession()
+                this.navigate(CoinFragmentDirections.actionCoinFragmentToLoginFragment())
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

@@ -24,7 +24,7 @@
         <ImageView
             android:id="@+id/ic_app_logo"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_marginTop="@dimen/margin_max"
             android:src="@drawable/ic_app_logo"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_profile_item"
             android:gravity="center"
             android:text="@string/login_message"
@@ -56,7 +56,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_profile_item"
+            android:layout_marginTop="@dimen/margin_max"
             app:layout_constraintTop_toBottomOf="@id/txtLoginMessage">
 
             <com.google.android.material.textfield.TextInputEditText

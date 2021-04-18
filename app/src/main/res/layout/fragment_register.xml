@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/ic_app_logo"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_marginTop="@dimen/margin_max"
             android:src="@drawable/ic_app_logo"
             app:layout_constraintTop_toTopOf="parent" />

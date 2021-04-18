@@ -51,14 +51,20 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun init() {
-        setData()
+
+        setToolbar()
+
+        setCoinData()
 
         observeData()
 
-        setToolbar()
     }
 
-    private fun setData() {
+    private fun setToolbar() {
+        setHasOptionsMenu(true)
+    }
+
+    private fun setCoinData() {
         coinID = args.coinID
         coinDetailViewModel.isFavourite(coinID)
 
@@ -71,19 +77,8 @@ class CoinDetailFragment : Fragment() {
             state = CoinDetailViewState(Status.LOADING)
             edtInterval.setText(sharedPreferences.getRefreshInterval())
 
-            edtInterval.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    setRefreshInterval()
-                    return@OnKeyListener true
-                }
-                false
-            })
+            edtInterval.setOnKeyListener(onKeyListener)
         }
-
-    }
-
-    private fun setToolbar() {
-        setHasOptionsMenu(true)
     }
 
     private fun setRefreshInterval() {
@@ -92,25 +87,14 @@ class CoinDetailFragment : Fragment() {
         requireContext() toast "All data and details will be refreshed every $refreshInterval seconds. "
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_coin_detail, menu)
-        menuItem = menu.findItem(R.id.action_fav)
-        return super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_fav -> {
-                if (isFavourite)
-                    coinDetailViewModel.deleteFavourite(coinID)
-                else
-                    coinDetailViewModel.addToFavourites(coinDetailViewModel.coinInfo.value?.data!!)
-
-                isFavourite = !isFavourite
-                item.changeIconColor(isFavourite)
+    private fun repeatRequestByRefreshInterval(refreshInterval: Int) {
+        this.lifecycleScope.launch(Dispatchers.IO) {
+            while (true) {
+                coinDetailViewModel.getCoinByID(coinID)
+                sharedPreferences.saveRefreshInterval(refreshInterval)
+                delay(refreshInterval.toLong() * 1000)
             }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun observeData() {
@@ -149,6 +133,27 @@ class CoinDetailFragment : Fragment() {
         Glide.with(requireContext()).load(coinDetails.image.small).into(binding.imgIconImage)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_coin_detail, menu)
+        menuItem = menu.findItem(R.id.action_fav)
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_fav -> {
+                if (isFavourite)
+                    coinDetailViewModel.deleteFavourite(coinID)
+                else
+                    coinDetailViewModel.addToFavourites(coinDetailViewModel.coinInfo.value?.data!!)
+
+                isFavourite = !isFavourite
+                item.changeIconColor(isFavourite)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private infix fun MenuItem.changeIconColor(isFavourite: Boolean) {
         val color = if (isFavourite) R.color.yellow else R.color.white
 
@@ -158,18 +163,19 @@ class CoinDetailFragment : Fragment() {
         )
     }
 
-    private fun repeatRequestByRefreshInterval(refreshInterval: Int) {
-        this.lifecycleScope.launch(Dispatchers.IO) {
-            while (true) {
-                coinDetailViewModel.getCoinByID(coinID)
-                sharedPreferences.saveRefreshInterval(refreshInterval)
-                delay(refreshInterval.toLong() * 1000)
-            }
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val onKeyListener = object : View.OnKeyListener {
+        override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_UP) {
+                setRefreshInterval()
+                return true
+            }
+            return false
+        }
+
     }
 }

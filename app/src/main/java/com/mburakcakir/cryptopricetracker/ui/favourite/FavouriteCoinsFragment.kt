@@ -36,32 +36,15 @@ class FavouriteCoinsFragment : Fragment() {
     }
 
     private fun init() {
-        binding.state = FavouriteCoinsViewState(Status.LOADING)
+
         setRecyclerView()
 
         observeCoins()
-
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun observeCoins() {
-        favouriteCoinViewModel.getAllFavourites()
-
-        favouriteCoinViewModel.favouriteCoins.observe(viewLifecycleOwner) {
-            favouriteCoinAdapter.submitList(it)
-        }
-        favouriteCoinViewModel.coinState.observe(viewLifecycleOwner) {
-            val status = if (it) Status.SUCCESS else Status.ERROR
-            binding.state = FavouriteCoinsViewState(status)
-        }
     }
 
     private fun setRecyclerView() {
+        binding.state = FavouriteCoinsViewState(Status.LOADING)
+
         binding.rvFavouriteCoinList.adapter = favouriteCoinAdapter
 
         favouriteCoinAdapter.setCoinOnClickListener {
@@ -73,4 +56,22 @@ class FavouriteCoinsFragment : Fragment() {
         }
     }
 
+
+    private fun observeCoins() {
+        favouriteCoinViewModel.getAllFavourites()
+
+        favouriteCoinViewModel.favouriteCoins.observe(viewLifecycleOwner) {
+            favouriteCoinAdapter.submitList(it)
+        }
+
+        favouriteCoinViewModel.coinState.observe(viewLifecycleOwner) {
+            val status = if (it) Status.SUCCESS else Status.ERROR
+            binding.state = FavouriteCoinsViewState(status)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
