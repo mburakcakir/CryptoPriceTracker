@@ -36,7 +36,7 @@
     <string name="coin_hashing_algorithm">Hashing Algorithm</string>
     <string name="coin_highest_price_24h">Highest(24h):</string>
     <string name="coin_lowest_price_24h">Lowest(24h):</string>
-    <string name="coin_refresh_time">Refresh Time (sec) </string>
+    <string name="coin_refresh_time">Refresh Interval (sec) </string>
     <string name="coin_search">Search a coin</string>
     <string name="coin_name">Coin Name</string>
     <string name="coin_price_change">Coin Price Change</string>

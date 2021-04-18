@@ -46,8 +46,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    fun changeToolbarVisibility(visibility: Int) {
-//        binding.toolbar.visibility = visibility
-    }
-
 }

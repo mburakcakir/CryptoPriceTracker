@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
-import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
@@ -73,7 +72,6 @@ class CoinFragment : Fragment() {
     }
 
     private fun setToolbar() {
-        (requireActivity() as MainActivity).changeToolbarVisibility(View.VISIBLE)
         setHasOptionsMenu(true)
     }
 

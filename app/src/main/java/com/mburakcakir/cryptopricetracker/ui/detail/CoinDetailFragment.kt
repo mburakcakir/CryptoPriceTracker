@@ -77,15 +77,8 @@ class CoinDetailFragment : Fragment() {
             state = CoinDetailViewState(Status.LOADING)
             edtInterval.setText(sharedPreferences.getRefreshInterval())
 
-            edtInterval.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                    setRefreshInterval()
-                    return@OnKeyListener true
-                }
-                false
-            })
+            edtInterval.setOnKeyListener(onKeyListener)
         }
-
     }
 
     private fun setRefreshInterval() {
@@ -173,5 +166,16 @@ class CoinDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val onKeyListener = object : View.OnKeyListener {
+        override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_UP) {
+                setRefreshInterval()
+                return true
+            }
+            return false
+        }
+
     }
 }
