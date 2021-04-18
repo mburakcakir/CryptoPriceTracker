@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
@@ -12,6 +13,9 @@ import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CoinFragment : Fragment() {
@@ -113,7 +117,7 @@ class CoinFragment : Fragment() {
     }
 
     private fun checkCoinData() {
-        if (coinViewModel.allCoins.value == null)
+        if (coinViewModel.allCoins.value?.data == null)
             coinViewModel.getAllCoins()
         else {
             binding.state = CoinViewState(Status.SUCCESS)
@@ -152,16 +156,16 @@ class CoinFragment : Fragment() {
     }
 
     private fun repeatRequestByRefreshInterval() {
-//        sharedPreferences = SharedPreferences(requireContext())
-//        sharedPreferences.getRefreshInterval()?.let {
-//            this.lifecycleScope.launch(Dispatchers.IO) {
-//                while (true) {
-//                    coinViewModel.getAllCoins()
-//                    delay(Integer.parseInt(it).toLong() * 1000)
-//                }
-//            }
-//
-//        }
+        sharedPreferences = SharedPreferences(requireContext())
+        sharedPreferences.getRefreshInterval()?.let {
+            this.lifecycleScope.launch(Dispatchers.IO) {
+                while (true) {
+                    coinViewModel.getAllCoins()
+                    delay(Integer.parseInt(it).toLong() * 1000)
+                }
+            }
+
+        }
     }
 
     override fun onDestroyView() {

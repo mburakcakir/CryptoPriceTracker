@@ -15,7 +15,8 @@ class FavouriteCoinsViewModel : BaseViewModel() {
 
     private val _coinState = MutableLiveData<Boolean>()
     val coinState: LiveData<Boolean> = _coinState
-    private val currentList: MutableList<FavouriteCoinModel> = mutableListOf()
+
+    private val favouriteCoinsList: MutableList<FavouriteCoinModel> = mutableListOf()
 
     private val db = Firebase.firestore
         .collection("Cryptocurrency")
@@ -29,11 +30,11 @@ class FavouriteCoinsViewModel : BaseViewModel() {
                 list.forEach {
                     val coinMarketItem = it.toObject(FavouriteCoinModel::class.java)
                     coinMarketItem?.let { favouriteCoinModel ->
-                        currentList.add(favouriteCoinModel)
+                        favouriteCoinsList.add(favouriteCoinModel)
                     }
                 }
                 _coinState.value = true
-                _favouriteCoins.value = currentList
+                _favouriteCoins.value = favouriteCoinsList
             }
             .addOnFailureListener { exception ->
                 _coinState.value = false

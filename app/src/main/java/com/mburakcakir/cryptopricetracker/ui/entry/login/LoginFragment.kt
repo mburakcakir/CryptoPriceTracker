@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentLoginBinding
+import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
 import com.mburakcakir.cryptopricetracker.util.enums.EntryState
 import com.mburakcakir.cryptopricetracker.util.enums.EntryType
@@ -46,6 +47,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkInputAndClick() {
+        (requireActivity() as MainActivity).changeToolbarVisibility(View.GONE)
 
         loginViewModel.setEntryType(EntryType.LOGIN)
         binding.lifecycleOwner = viewLifecycleOwner

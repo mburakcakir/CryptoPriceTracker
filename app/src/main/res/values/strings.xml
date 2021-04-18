@@ -60,7 +60,7 @@
     <string name="success">Success</string>
     <string name="error">Error</string>
     <string name="error_result">Error Data</string>
-    <string name="error_internet_connection">Internet disconnected.</string>
+    <string name="error_internet_connection">Internet disconnected.\nThe problem may be caused by mobile data. Connect with Wi-Fi. </string>
 
 
 </resources>

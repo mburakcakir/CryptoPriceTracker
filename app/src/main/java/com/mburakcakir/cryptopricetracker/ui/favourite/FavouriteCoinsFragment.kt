@@ -55,6 +55,7 @@ class FavouriteCoinsFragment : Fragment() {
         favouriteCoinViewModel.favouriteCoins.observe(viewLifecycleOwner) {
             favouriteCoinAdapter.submitList(it)
         }
+
         favouriteCoinViewModel.coinState.observe(viewLifecycleOwner) {
             val status = if (it) Status.SUCCESS else Status.ERROR
             binding.state = FavouriteCoinsViewState(status)
