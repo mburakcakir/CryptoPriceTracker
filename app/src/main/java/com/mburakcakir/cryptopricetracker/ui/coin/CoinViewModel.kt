@@ -1,5 +1,6 @@
 package com.mburakcakir.cryptopricetracker.ui.coin
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -27,7 +28,7 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
                 _result.value = Result(loading = R.string.loading)
             }
             .catch {
-                it.message
+                Log.v("errorGetCoinByParameter", it.message.toString())
             }
             .collect {
                 _allCoins.value = it

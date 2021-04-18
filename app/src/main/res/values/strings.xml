@@ -55,7 +55,7 @@
     <string name="gmail_package_name">com.google.android.gm</string>
 
     <string name="favourite_add_success">Favorilere başarıyla eklendi.</string>
-    <string name="favourite_remove_success">Favorilerden başarıyla kaldırıldı.</string>
+    <string name="favourite_delete_success">Favorilerden başarıyla kaldırıldı.</string>
     <string name="favourite_add_error">Ekleme işlemi başarısız oldu.</string>
 
 </resources>

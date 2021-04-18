@@ -2,7 +2,6 @@ package com.mburakcakir.cryptopricetracker.ui.entry
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.util.Constants
 import com.mburakcakir.cryptopricetracker.util.ValidationUtils
@@ -20,8 +19,6 @@ open class EntryViewModel : BaseViewModel() {
 
     val _resultEntry = MutableLiveData<ResultEntry>()
     val resultEntry: LiveData<ResultEntry> = _resultEntry
-
-    val firebaseAuth = FirebaseAuth.getInstance()
 
     init {
         _entryForm.value = EntryFormState()

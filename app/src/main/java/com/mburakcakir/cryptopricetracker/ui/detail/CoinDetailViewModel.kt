@@ -1,9 +1,9 @@
 package com.mburakcakir.cryptopricetracker.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mburakcakir.cryptopricetracker.R
@@ -24,8 +24,19 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
     private val _coinInfo = MutableLiveData<Resource<CoinDetailItem>>()
     val coinInfo: LiveData<Resource<CoinDetailItem>> = _coinInfo
 
-    private val _isAddedFavourite = MutableLiveData<Boolean>()
-    val isAddedFavourite: LiveData<Boolean> = _isAddedFavourite
+    private val _isFavouriteAdded = MutableLiveData<Boolean>()
+    val isFavouriteAdded: LiveData<Boolean> = _isFavouriteAdded
+
+    private val _isFavouriteDeleted = MutableLiveData<Boolean>()
+    val isFavouriteDeleted: LiveData<Boolean> = _isFavouriteDeleted
+
+    private val _isFavourite = MutableLiveData<Boolean>()
+    val isFavourite: LiveData<Boolean> = _isFavourite
+
+    val db = Firebase.firestore
+        .collection("Cryptocurrency")
+        .document(firebaseAuth.currentUser.uid)
+        .collection("listFavouriteCrypto")
 
     fun getCoinByID(id: String) = viewModelScope.launch {
         coinRepository.getCoinByID(id)
@@ -33,7 +44,7 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
                 _result.value = Result(loading = R.string.loading)
             }
             .catch {
-                it.message
+                Log.v("errorGetCoinByID", it.message.toString())
             }
             .collect {
                 _coinInfo.value = it
@@ -48,20 +59,49 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
             baseCoin.symbol
         )
 
-        val db = Firebase.firestore
-            .collection("Cryptocurrency")
-            .document(FirebaseAuth.getInstance().currentUser.uid)
-            .collection("listFavouriteCrypto")
-            .document(baseCoin.cryptoID)
+        val favouriteDocument = db.document(baseCoin.cryptoID)
 
-        db.set(favouriteCryptoModel)
+        favouriteDocument.set(favouriteCryptoModel)
             .addOnSuccessListener {
-                _isAddedFavourite.postValue(true)
+                _isFavouriteAdded.postValue(true)
             }
             .addOnFailureListener {
-                _isAddedFavourite.postValue(false)
+                _isFavouriteAdded.postValue(false)
             }
 
     }
+
+    fun isFavourite(cryptoID: String) {
+        val favouriteDocument = db.document(cryptoID)
+
+        favouriteDocument.get()
+            .addOnSuccessListener { document ->
+                _isFavourite.value = document.exists()
+            }
+            .addOnFailureListener { exception ->
+                _isFavourite.value = false
+            }
+    }
+
+
+    fun getAllFavourites() {
+        db.get()
+            .addOnSuccessListener { document ->
+                Log.v("documents", document.documents.toString())
+            }
+            .addOnFailureListener { exception ->
+                exception
+            }
+    }
+
+    fun deleteFavourite(cryptoID: String) {
+        val favouriteDocument = db.document(cryptoID)
+
+        favouriteDocument
+            .delete()
+            .addOnSuccessListener { _isFavouriteDeleted.postValue(true) }
+            .addOnFailureListener { _isFavouriteDeleted.postValue(false) }
+    }
+
 
 }

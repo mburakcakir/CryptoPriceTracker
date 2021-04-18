@@ -1,5 +1,7 @@
 package com.mburakcakir.cryptopricetracker.util
 
+import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
+
 
 fun String.formatUpdatedTime(): String {
     val year = substring(0, 4)
@@ -17,4 +19,26 @@ fun Number.formatPriceChange(): Double {
 
 fun setFavouriteMessage(isFavourite: Boolean): String {
     return if (isFavourite) "Added" else "Removed"
+}
+
+fun setCoinDetail(coinDetails: CoinDetailItem): CoinDetailItem {
+    val lastUpdated = coinDetails.lastUpdated.formatUpdatedTime()
+    val priceChange24h = coinDetails.marketData.priceChange24h.formatPriceChange()
+    val priceChangePercentage24h =
+        coinDetails.marketData.priceChangePercentage24h.formatPriceChange()
+    val hashingAlgorithm = coinDetails.hashingAlgorithm ?: "-"
+
+    val marketData = coinDetails.marketData.copy(
+        priceChange24h = priceChange24h,
+        priceChangePercentage24h = priceChangePercentage24h
+    )
+
+    val copiedDetail = coinDetails.copy(
+        lastUpdated = lastUpdated,
+        marketData = marketData,
+        hashingAlgorithm = hashingAlgorithm
+    )
+
+    return copiedDetail
+
 }

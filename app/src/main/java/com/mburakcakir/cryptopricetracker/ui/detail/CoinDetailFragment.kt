@@ -3,7 +3,6 @@ package com.mburakcakir.cryptopricetracker.ui.detail
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,8 +14,10 @@ import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinDetailBinding
 import com.mburakcakir.cryptopricetracker.ui.MainActivity
-import com.mburakcakir.cryptopricetracker.util.*
+import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
+import com.mburakcakir.cryptopricetracker.util.setCoinDetail
+import com.mburakcakir.cryptopricetracker.util.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,10 +31,10 @@ class CoinDetailFragment : Fragment() {
     private val args by navArgs<CoinDetailFragmentArgs>()
     private lateinit var baseCoin: CoinMarketItem
 
-    private var state: Boolean = false
     private val coinDetailViewModel by viewModel<CoinDetailViewModel>()
-
-    lateinit var sharedPreferences: SharedPreferences
+    private var isFavourite: Boolean = false
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var menuItem: MenuItem
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,12 +52,11 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun init() {
-
         setData()
 
-        observeData()
-
         setToolbar()
+
+        observeData()
     }
 
     private fun setData() {
@@ -66,8 +66,10 @@ class CoinDetailFragment : Fragment() {
         sharedPreferences.getRefreshInterval()?.let {
             binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
         }
-
         binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
+        coinDetailViewModel.isFavourite(baseCoin.cryptoID)
+        coinDetailViewModel.getAllFavourites()
+
         binding.btnApprove.setOnClickListener {
             repeatRequestByRefreshInterval(Integer.parseInt(binding.edtInterval.text.toString()))
         }
@@ -83,17 +85,20 @@ class CoinDetailFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_coin_detail, menu)
-
+        menuItem = menu.findItem(R.id.action_fav)
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_fav -> {
-                state = !state
-                item.changeIconColor(state)
-                coinDetailViewModel.addToFavourites(baseCoin)
-                requireContext().toast(setFavouriteMessage(state))
+                if (isFavourite)
+                    coinDetailViewModel.deleteFavourite(baseCoin.cryptoID)
+                else
+                    coinDetailViewModel.addToFavourites(baseCoin)
+
+                isFavourite = !isFavourite
+                item.changeIconColor(isFavourite)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -103,47 +108,39 @@ class CoinDetailFragment : Fragment() {
         coinDetailViewModel.getCoinByID(baseCoin.cryptoID)
         coinDetailViewModel.coinInfo.observe(viewLifecycleOwner) {
             when (it.status) {
-                Status.SUCCESS -> {
-                    setCoinDetails(it.data!!)
-                    Log.v("dataRequest", it.data.toString())
-                }
+                Status.SUCCESS -> setCoinDetails(it.data!!)
             }
             binding.state = CoinDetailViewState(it.status)
         }
 
-        coinDetailViewModel.isAddedFavourite.observe(viewLifecycleOwner) {
+        coinDetailViewModel.isFavouriteAdded.observe(viewLifecycleOwner) {
             if (it)
                 requireContext() toast getString(R.string.favourite_add_success)
-            else
-                requireContext() toast getString(R.string.favourite_remove_success)
+        }
+
+        coinDetailViewModel.isFavouriteDeleted.observe(viewLifecycleOwner) {
+            if (it)
+                requireContext() toast getString(R.string.favourite_delete_success)
+        }
+
+        coinDetailViewModel.isFavourite.observe(viewLifecycleOwner) {
+            if (it) {
+                isFavourite = it
+                menuItem.changeIconColor(isFavourite)
+            }
         }
 
     }
 
     private fun setCoinDetails(coinDetails: CoinDetailItem) {
-        val lastUpdated = coinDetails.lastUpdated.formatUpdatedTime()
-        val priceChange24h = coinDetails.marketData.priceChange24h.formatPriceChange()
-        val priceChangePercentage24h =
-            coinDetails.marketData.priceChangePercentage24h.formatPriceChange()
-
-        val marketData = coinDetails.marketData.copy(
-            priceChange24h = priceChange24h,
-            priceChangePercentage24h = priceChangePercentage24h
-        )
-
-        val copiedDetail = coinDetails.copy(
-            lastUpdated = lastUpdated,
-            marketData = marketData
-        )
-
-        binding.coinDetail = copiedDetail
+        binding.coinDetail = setCoinDetail(coinDetails)
         binding.baseCoin = baseCoin
-
         Glide.with(requireContext()).load(baseCoin.cryptoImage).into(binding.imgIconImage)
     }
 
     private infix fun MenuItem.changeIconColor(isFavourite: Boolean) {
         val color = if (isFavourite) R.color.yellow else R.color.white
+
         icon.colorFilter = PorterDuffColorFilter(
             ContextCompat.getColor(requireContext(), color),
             PorterDuff.Mode.SRC_IN
