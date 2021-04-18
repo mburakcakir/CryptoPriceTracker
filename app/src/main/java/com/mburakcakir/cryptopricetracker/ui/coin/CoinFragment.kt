@@ -109,6 +109,7 @@ class CoinFragment : Fragment() {
 
         coinAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
                 binding.rvCoinList.smoothScrollToPosition(positionStart)
             }
         })
