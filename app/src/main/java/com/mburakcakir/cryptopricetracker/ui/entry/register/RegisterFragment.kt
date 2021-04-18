@@ -76,9 +76,6 @@ class RegisterFragment : Fragment() {
             )
         }
 
-        binding.edtMail.setText("muhburcak@gmail.com")
-        binding.edtPassword.setText("aaaaA4")
-
         binding.edtMail.afterTextChanged {
             registerViewModel.isDataChanged(
                 EntryState.EMAIL,

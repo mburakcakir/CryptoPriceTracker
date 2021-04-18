@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
-import com.mburakcakir.cryptopricetracker.databinding.RvItemCoinDetailBinding
+import com.mburakcakir.cryptopricetracker.databinding.RvItemCoin2Binding
 
 class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) {
 
@@ -18,7 +18,7 @@ class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder =
         CoinViewHolder(
-            RvItemCoinDetailBinding.inflate(
+            RvItemCoin2Binding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -31,7 +31,7 @@ class CoinAdapter : ListAdapter<CoinMarketItem, CoinViewHolder>(CoinCallback()) 
 }
 
 class CoinViewHolder(
-    private val binding: RvItemCoinDetailBinding,
+    private val binding: RvItemCoin2Binding,
     private val coinOnClick: (CoinMarketItem) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(coinMarketItem: CoinMarketItem) {

@@ -21,23 +21,22 @@
         android:padding="@dimen/margin_medium"
         tools:context=".ui.entry.login.LoginFragment">
 
-        <!--        <com.airbnb.lottie.LottieAnimationView-->
-        <!--            android:id="@+id/lottieAnimationView"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="200dp"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:lottie_autoPlay="true"-->
-        <!--            app:lottie_rawRes="@raw/crypto"-->
-        <!--            app:lottie_loop="true" />-->
+        <ImageView
+            android:id="@+id/ic_app_logo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/margin_max"
+            android:src="@drawable/ic_app_logo"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtWelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginTop="@dimen/margin_max"
             android:gravity="center"
             android:text="@string/login_welcome"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ic_app_logo" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txtLoginMessage"

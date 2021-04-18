@@ -82,17 +82,6 @@ class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : Base
             }
     }
 
-
-    fun getAllFavourites() {
-        db.get()
-            .addOnSuccessListener { document ->
-                Log.v("documents", document.documents.toString())
-            }
-            .addOnFailureListener { exception ->
-                exception
-            }
-    }
-
     fun deleteFavourite(cryptoID: String) {
         val favouriteDocument = db.document(cryptoID)
 

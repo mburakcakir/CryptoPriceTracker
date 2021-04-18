@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="coin"
+            type="com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgCoin"
+                loadImageFromUrl="@{coin.cryptoImage}"
+                android:layout_width="@dimen/size_coin_image"
+                android:layout_height="@dimen/size_coin_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txtCoinName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_min"
+                android:text="@{coin.name}"
+                android:textSize="@dimen/text_size_big"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/imgCoin"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/coin_name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinSymbol"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_min"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:text="@{coin.symbol}"
+                android:textSize="@dimen/text_size_min"
+                app:layout_constraintStart_toEndOf="@id/imgCoin"
+                app:layout_constraintTop_toBottomOf="@id/txtCoinName"
+                tools:text="@string/coin_symbol" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinPriceChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_min"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:text="@{Double.toString(coin.priceChangePercentage24h) + `%`}"
+                android:textSize="@dimen/text_size_min"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtCoinCurrentPrice"
+                tools:text="@string/coin_price_change" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgChangeArrow"
+                setArrowBackground="@{coin.priceChangePercentage24h}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_min"
+                app:layout_constraintEnd_toStartOf="@id/txtCoinPriceChange"
+                app:layout_constraintTop_toTopOf="@id/txtCoinPriceChange" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txtCoinCurrentPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_min"
+                android:paddingBottom="@dimen/margin_min"
+                android:text="@{Double.toString(coin.currentPrice) + ` $`}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_big"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imgCoin"
+                tools:text="@string/coin_current_price" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_line_min"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/gray"
+                app:layout_constraintTop_toBottomOf="@id/imgCoin" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

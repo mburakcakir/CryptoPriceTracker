@@ -131,7 +131,7 @@ class CoinFragment : Fragment() {
         val searchView = searchItem?.actionView as SearchView
 
         searchView.apply {
-            queryHint = getString(R.string.search_coin)
+            queryHint = getString(R.string.coin_search)
             setOnQueryTextListener(onQueryTextListener)
         }
 

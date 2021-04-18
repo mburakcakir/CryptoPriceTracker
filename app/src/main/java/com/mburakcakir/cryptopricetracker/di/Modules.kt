@@ -8,8 +8,10 @@ import com.mburakcakir.cryptopricetracker.data.db.dao.CryptoDao
 import com.mburakcakir.cryptopricetracker.data.network.CryptoService
 import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepository
 import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
+import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.ui.coin.CoinViewModel
 import com.mburakcakir.cryptopricetracker.ui.detail.CoinDetailViewModel
+import com.mburakcakir.cryptopricetracker.ui.entry.EntryViewModel
 import com.mburakcakir.cryptopricetracker.ui.entry.login.LoginViewModel
 import com.mburakcakir.cryptopricetracker.ui.entry.register.RegisterViewModel
 import com.mburakcakir.cryptopricetracker.ui.favourite.FavouriteCoinsViewModel
@@ -26,11 +28,12 @@ val viewModelModule = module {
     viewModel { LoginViewModel() }
     viewModel { RegisterViewModel() }
     viewModel { FavouriteCoinsViewModel() }
+    viewModel { EntryViewModel() }
+    viewModel { BaseViewModel() }
 }
 
 val repositoryModule = module {
     single { CoinRepositoryImpl(get(), get()) } binds arrayOf(CoinRepository::class)
-//    single { UserRepositoryImpl(get()) } binds arrayOf(UserRepository::class)
 }
 
 val networkModule = module {

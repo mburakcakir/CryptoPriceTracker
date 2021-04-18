@@ -19,17 +19,24 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:padding="@dimen/margin_medium"
         tools:context=".ui.entry.register.RegisterFragment">
+
+        <ImageView
+            android:id="@+id/ic_app_logo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="@dimen/margin_max"
+            android:src="@drawable/ic_app_logo"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutMail"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/layoutEmail">
+            android:layout_marginTop="@dimen/margin_max"
+            app:layout_constraintTop_toBottomOf="@+id/ic_app_logo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtMail"

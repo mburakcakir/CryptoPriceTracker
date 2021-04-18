@@ -50,9 +50,6 @@ class LoginFragment : Fragment() {
         loginViewModel.setEntryType(EntryType.LOGIN)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.edtEmail.setText("muhburcak@gmail.com")
-        binding.edtPassword.setText("aaaaA4")
-
         binding.btnLogin.setOnClickListener {
             loginViewModel.login(
                 binding.edtEmail.text.toString(),

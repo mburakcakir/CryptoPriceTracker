@@ -60,22 +60,36 @@ class CoinDetailFragment : Fragment() {
 
     private fun setData() {
         coinID = args.coinID
-        binding.state = CoinDetailViewState(Status.LOADING)
+        coinDetailViewModel.isFavourite(coinID)
+
         sharedPreferences = SharedPreferences(requireContext())
         sharedPreferences.getRefreshInterval()?.let {
             binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
         }
-        binding.edtInterval.setText(sharedPreferences.getRefreshInterval())
-        coinDetailViewModel.isFavourite(coinID)
-        coinDetailViewModel.getAllFavourites()
 
-        binding.btnApprove.setOnClickListener {
-            repeatRequestByRefreshInterval(Integer.parseInt(binding.edtInterval.text.toString()))
+        binding.apply {
+            state = CoinDetailViewState(Status.LOADING)
+            edtInterval.setText(sharedPreferences.getRefreshInterval())
+
+            edtInterval.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    setRefreshInterval()
+                    return@OnKeyListener true
+                }
+                false
+            })
         }
+
     }
 
     private fun setToolbar() {
         setHasOptionsMenu(true)
+    }
+
+    private fun setRefreshInterval() {
+        val refreshInterval = binding.edtInterval.text.toString()
+        repeatRequestByRefreshInterval(Integer.parseInt(refreshInterval))
+        requireContext() toast "All data and details will be refreshed every $refreshInterval seconds. "
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

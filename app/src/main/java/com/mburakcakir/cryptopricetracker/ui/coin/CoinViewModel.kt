@@ -51,16 +51,16 @@ class CoinViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewMo
     fun insertAllCoins(listCrypto: List<CoinMarketItem>) = viewModelScope.launch {
         coinRepository.insertAllCoins(listCrypto)
             .onStart {
-                _result.value = Result(loading = R.string.crypto_loading)
+                _result.value = Result(loading = R.string.coin_loading)
             }
             .collect {
                 when (it.status) {
                     Status.SUCCESS -> {
                         it.data?.let {
-                            if (it) Result(success = R.string.crypto_success)
+                            if (it) Result(success = R.string.coin_success)
                         }
                     }
-                    Status.ERROR -> Result(success = R.string.crypto_error)
+                    Status.ERROR -> Result(success = R.string.coin_error)
 
                 }
             }
