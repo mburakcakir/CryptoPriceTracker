@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.mburakcakir.cryptopricetracker.util.Result
-import org.koin.core.component.KoinComponent
 
-open class BaseViewModel : ViewModel(), KoinComponent {
+open class BaseViewModel : ViewModel() {
 
     val _result = MutableLiveData<Result>()
     val result: LiveData<Result> = _result

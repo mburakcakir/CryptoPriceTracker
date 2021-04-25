@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentRegisterBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
@@ -15,9 +15,12 @@ import com.mburakcakir.cryptopricetracker.util.enums.EntryState
 import com.mburakcakir.cryptopricetracker.util.enums.EntryType
 import com.mburakcakir.cryptopricetracker.util.navigate
 import com.mburakcakir.cryptopricetracker.util.toast
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment : Fragment() {
-    private lateinit var registerViewModel: RegisterViewModel
+    private val registerViewModel: RegisterViewModel by viewModels()
+
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
@@ -43,7 +46,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun checkInputAndClick() {
-        registerViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         registerViewModel.setEntryType(EntryType.REGISTER)
 
         binding.btnRegister.setOnClickListener {

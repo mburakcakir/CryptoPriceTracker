@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentLoginBinding
 import com.mburakcakir.cryptopricetracker.ui.entry.CustomTextWatcher
@@ -15,13 +16,15 @@ import com.mburakcakir.cryptopricetracker.util.enums.EntryType
 import com.mburakcakir.cryptopricetracker.util.navigate
 import com.mburakcakir.cryptopricetracker.util.toast
 import com.mburakcakir.cryptopricetracker.util.verifyEmail
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val loginViewModel by viewModel<LoginViewModel>()
+    private val loginViewModel: LoginViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouriteCoinsFragment : Fragment() {
     private var _binding: com.mburakcakir.cryptopricetracker.databinding.FragmentFavouriteCoinsBinding? =
         null
@@ -16,7 +18,7 @@ class FavouriteCoinsFragment : Fragment() {
 
     private var favouriteCoinAdapter = FavouriteCoinsAdapter()
 
-    private val favouriteCoinViewModel by viewModel<FavouriteCoinsViewModel>()
+    private val favouriteCoinViewModel: FavouriteCoinsViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -17,12 +18,12 @@ import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.setCoinDetail
 import com.mburakcakir.cryptopricetracker.util.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class CoinDetailFragment : Fragment() {
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding get() = _binding!!
@@ -30,7 +31,7 @@ class CoinDetailFragment : Fragment() {
     private val args by navArgs<CoinDetailFragmentArgs>()
     private lateinit var coinID: String
 
-    private val coinDetailViewModel by viewModel<CoinDetailViewModel>()
+    private val coinDetailViewModel: CoinDetailViewModel by viewModels()
     private var isFavourite: Boolean = false
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var menuItem: MenuItem

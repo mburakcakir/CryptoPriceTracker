@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
 }
 
 
@@ -116,9 +117,9 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil:$coilVersion")
 
-    // Koin
-    implementation "io.insert-koin:koin-android:$koinVersion"
-    implementation "io.insert-koin:koin-android-ext:$koinVersion"
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
 
 
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.mburakcakir.cryptopricetracker.R
@@ -12,17 +13,18 @@ import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.navigate
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class CoinFragment : Fragment() {
     private var _binding: FragmentCoinBinding? = null
     private val binding get() = _binding!!
 
     private var coinAdapter = CoinAdapter()
-    private val coinViewModel by viewModel<CoinViewModel>()
+    private val coinViewModel: CoinViewModel by viewModels()
 
     private lateinit var sharedPreferences: SharedPreferences
 

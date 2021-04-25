@@ -1,4 +1,4 @@
-package com.mburakcakir.cryptopricetracker.data.repository.coin
+package com.mburakcakir.cryptopricetracker.data.repository
 
 import com.mburakcakir.cryptopricetracker.data.db.dao.CryptoDao
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
@@ -7,15 +7,16 @@ import com.mburakcakir.cryptopricetracker.data.network.CryptoService
 import com.mburakcakir.cryptopricetracker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class CoinRepositoryImpl(
-    private val retrofitClient: CryptoService,
+class CoinRepositoryImpl @Inject constructor(
+    private val cryptoService: CryptoService,
     private val cryptoDao: CryptoDao
 ) : CoinRepository {
 
     override suspend fun getAllCoins(): Flow<Resource<List<CoinMarketItem>>> = flow {
         try {
-            val response = retrofitClient.getAllCoins()
+            val response = cryptoService.getAllCoins()
             if (response.isSuccessful) {
                 response.body()?.apply {
                     emit(Resource.Success(this))
@@ -29,7 +30,7 @@ class CoinRepositoryImpl(
 
     override suspend fun getCoinByID(id: String): Flow<Resource<CoinDetailItem>> = flow {
         try {
-            val response = retrofitClient.getCoinByID(id)
+            val response = cryptoService.getCoinByID(id)
             if (response.isSuccessful) {
                 response.body()?.apply {
                     emit(Resource.Success(this))
@@ -60,6 +61,4 @@ class CoinRepositoryImpl(
                 e.printStackTrace()
             }
         }
-
-
 }

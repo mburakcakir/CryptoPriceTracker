@@ -62,7 +62,7 @@ open class EntryViewModel : BaseViewModel() {
         }.size == 0
 
     private fun setEntryParameters() {
-        when (entryType) {
+        typeList = when (entryType) {
             EntryType.LOGIN -> mutableListOf(_errorEmail.value, _errorPassword.value)
             EntryType.REGISTER -> mutableListOf(_errorEmail.value, _errorPassword.value)
         }

@@ -9,16 +9,20 @@ import com.google.firebase.ktx.Firebase
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.FavouriteCoinModel
-import com.mburakcakir.cryptopricetracker.data.repository.coin.CoinRepositoryImpl
+import com.mburakcakir.cryptopricetracker.data.repository.CoinRepository
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
 import com.mburakcakir.cryptopricetracker.util.Resource
 import com.mburakcakir.cryptopricetracker.util.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CoinDetailViewModel(private val coinRepository: CoinRepositoryImpl) : BaseViewModel() {
+@HiltViewModel
+class CoinDetailViewModel @Inject constructor(private val coinRepository: CoinRepository) :
+    BaseViewModel() {
 
     private val _coinInfo = MutableLiveData<Resource<CoinDetailItem>>()
     val coinInfo: LiveData<Resource<CoinDetailItem>> = _coinInfo
