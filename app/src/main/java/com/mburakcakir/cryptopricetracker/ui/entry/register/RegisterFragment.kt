@@ -47,25 +47,13 @@ class RegisterFragment : Fragment() {
 
     private fun checkInputAndClick() {
         registerViewModel.setEntryType(EntryType.REGISTER)
-
-        binding.btnRegister.setOnClickListener {
-            registerViewModel.insertUser(
-                binding.edtMail.text.toString(),
-                binding.edtPassword.text.toString()
-            )
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.registerViewModel = registerViewModel
 
         binding.edtMail.afterTextChanged {
             registerViewModel.isDataChanged(
                 EntryState.EMAIL,
                 binding.edtMail.text.toString()
-            )
-        }
-
-        binding.edtPassword.afterTextChanged {
-            registerViewModel.isDataChanged(
-                EntryState.PASSWORD,
-                binding.edtPassword.text.toString()
             )
         }
     }
@@ -74,10 +62,10 @@ class RegisterFragment : Fragment() {
         registerViewModel.entryFormState.observe(viewLifecycleOwner, {
             binding.btnRegister.isEnabled = it.isDataValid
 
-            if (!it.emailError.isNullOrEmpty())
+            if (it.emailError.isNullOrEmpty().not())
                 binding.edtMail.error = it.emailError
 
-            if (!it.passwordError.isNullOrEmpty())
+            if (!it.passwordError.isNullOrEmpty().not())
                 binding.edtPassword.error = it.passwordError
 
         })

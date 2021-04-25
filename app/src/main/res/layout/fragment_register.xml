@@ -8,6 +8,8 @@
 
         <import type="android.text.TextUtils" />
 
+        <import type="com.mburakcakir.cryptopricetracker.util.enums.EntryState" />
+
         <import type="com.mburakcakir.cryptopricetracker.data.model.UserModel" />
 
         <variable
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="@dimen/margin_min"
+                afterTextChanged="@{() -> registerViewModel.isDataChanged(EntryState.PASSWORD,edtPassword.getText().toString())}"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 app:errorEnabled="true"
@@ -75,6 +78,7 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:onClick="@{() -> registerViewModel.insertUser(edtMail.getText().toString(),edtPassword.getText().toString)}"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/register"

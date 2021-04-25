@@ -91,6 +91,7 @@
                 android:drawablePadding="@dimen/margin_min"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                afterTextChanged="@{() -> loginViewModel.isDataChanged(EntryState.PASSWORD,edtPassword.getText().toString())}"
                 app:error="@{TextUtils.isEmpty(loginViewModel.entryFormState.passwordError)? null : loginViewModel.entryFormState.passwordError}"
                 app:errorEnabled="true"
                 app:passwordToggleEnabled="true" />
@@ -106,6 +107,7 @@
             android:enabled="@{loginViewModel.entryFormState.dataValid}"
             android:text="@string/login"
             android:textSize="@dimen/text_size_big"
+            android:onClick="@{() -> loginViewModel.login(edtEmail.getText().toString(),edtPassword.getText().toString)}"
             app:layout_constraintTop_toBottomOf="@+id/layoutPassword" />
 
         <View

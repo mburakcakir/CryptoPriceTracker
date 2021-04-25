@@ -25,7 +25,6 @@ class LoginFragment : Fragment() {
 
     private val loginViewModel: LoginViewModel by viewModels()
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,25 +48,15 @@ class LoginFragment : Fragment() {
     private fun setInputAndClick() {
         loginViewModel.setEntryType(EntryType.LOGIN)
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.loginViewModel = loginViewModel
 
-        binding.btnLogin.setOnClickListener {
-            loginViewModel.login(
-                binding.edtEmail.text.toString(),
-                binding.edtPassword.text.toString()
-            )
-        }
+        binding.edtEmail.setText("muhburcak@gmail.com")
+        binding.edtPassword.setText("aaaaA4")
 
         binding.edtEmail.afterTextChanged {
             loginViewModel.isDataChanged(
                 EntryState.EMAIL,
                 binding.edtEmail.text.toString()
-            )
-        }
-
-        binding.edtPassword.afterTextChanged {
-            loginViewModel.isDataChanged(
-                EntryState.PASSWORD,
-                binding.edtPassword.text.toString()
             )
         }
 
@@ -81,9 +70,9 @@ class LoginFragment : Fragment() {
         loginViewModel.entryFormState.observe(viewLifecycleOwner, {
             binding.btnLogin.isEnabled = it.isDataValid
 
-            if (!it.passwordError.isNullOrEmpty())
+            if (it.passwordError.isNullOrEmpty().not())
                 binding.edtPassword.error = it.passwordError
-            if (!it.emailError.isNullOrEmpty())
+            if (it.emailError.isNullOrEmpty().not())
                 binding.edtEmail.error = it.emailError
         })
 
