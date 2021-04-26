@@ -67,8 +67,8 @@ class CoinViewModel @Inject constructor(private val coinRepository: CoinReposito
             .collect {
                 when (it.status) {
                     Status.SUCCESS -> {
-                        it.data?.let { coinInserted ->
-                            if (coinInserted) Result(success = R.string.coin_success)
+                        it.data?.let {
+                            Result(success = R.string.coin_success)
                         }
                     }
                     Status.ERROR -> Result(success = R.string.coin_error)
