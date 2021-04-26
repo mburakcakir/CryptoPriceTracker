@@ -5,7 +5,6 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -13,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinDetailBinding
+import com.mburakcakir.cryptopricetracker.ui.BaseFragment
 import com.mburakcakir.cryptopricetracker.ui.MainActivity
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
@@ -24,9 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CoinDetailFragment : Fragment() {
-    private var _binding: FragmentCoinDetailBinding? = null
-    private val binding get() = _binding!!
+class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
 
     private val args by navArgs<CoinDetailFragmentArgs>()
     private lateinit var coinID: String
@@ -36,15 +34,7 @@ class CoinDetailFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var menuItem: MenuItem
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-
-        return binding.root
-    }
+    override fun getFragmentView(): Int = R.layout.fragment_coin_detail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -164,11 +154,6 @@ class CoinDetailFragment : Fragment() {
         )
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private val onKeyListener = object : View.OnKeyListener {
         override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
             if (keyCode == KeyEvent.KEYCODE_ENTER && event?.action == KeyEvent.ACTION_UP) {
@@ -179,4 +164,5 @@ class CoinDetailFragment : Fragment() {
         }
 
     }
+
 }

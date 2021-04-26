@@ -1,14 +1,17 @@
 package com.mburakcakir.cryptopricetracker.ui.coin
 
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.mburakcakir.cryptopricetracker.R
 import com.mburakcakir.cryptopricetracker.databinding.FragmentCoinBinding
+import com.mburakcakir.cryptopricetracker.ui.BaseFragment
 import com.mburakcakir.cryptopricetracker.util.NetworkControllerUtils
 import com.mburakcakir.cryptopricetracker.util.SharedPreferences
 import com.mburakcakir.cryptopricetracker.util.enums.Status
@@ -19,9 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CoinFragment : Fragment() {
-    private var _binding: FragmentCoinBinding? = null
-    private val binding get() = _binding!!
+class CoinFragment : BaseFragment<FragmentCoinBinding>() {
 
     private var coinAdapter = CoinAdapter()
     private val coinViewModel: CoinViewModel by viewModels()
@@ -34,13 +35,7 @@ class CoinFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCoinBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override fun getFragmentView(): Int = R.layout.fragment_coin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -182,10 +177,5 @@ class CoinFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
