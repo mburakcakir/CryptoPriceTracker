@@ -19,7 +19,6 @@ object DatabaseModule {
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): CryptoDatabase =
         Room.databaseBuilder(context, CryptoDatabase::class.java, "crypto.db")
-            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
 
