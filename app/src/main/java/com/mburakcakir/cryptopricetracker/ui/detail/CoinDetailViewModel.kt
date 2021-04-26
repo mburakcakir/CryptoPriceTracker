@@ -11,6 +11,7 @@ import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.FavouriteCoinModel
 import com.mburakcakir.cryptopricetracker.data.repository.CoinRepository
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
+import com.mburakcakir.cryptopricetracker.util.Constants
 import com.mburakcakir.cryptopricetracker.util.Resource
 import com.mburakcakir.cryptopricetracker.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,9 +38,9 @@ class CoinDetailViewModel @Inject constructor(private val coinRepository: CoinRe
     val isFavourite: LiveData<Boolean> = _isFavourite
 
     val db = Firebase.firestore
-        .collection("Cryptocurrency")
+        .collection(Constants.BASE_COLLECTION_NAME)
         .document(firebaseAuth.currentUser.uid)
-        .collection("listFavouriteCrypto")
+        .collection(Constants.DETAIL_COLLECTION_NAME)
 
     fun getCoinByID(id: String) = viewModelScope.launch {
         coinRepository.getCoinByID(id)

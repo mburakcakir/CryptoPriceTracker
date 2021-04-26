@@ -39,9 +39,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
-        binding.edtEmail.setText("muhburcak@gmail.com")
-        binding.edtPassword.setText("aaaaA4")
-
         binding.edtEmail.afterTextChanged {
             loginViewModel.isDataChanged(
                 EntryState.EMAIL,

@@ -13,7 +13,7 @@ class ValidationUtils {
     }
 
     fun isPasswordValid(password: String): Boolean {
-        val textPattern: Pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$")
+        val textPattern: Pattern = Pattern.compile(Constants.PASSWORD_PATTERN)
         return textPattern.matcher(password).matches() && password.length > 5
     }
 

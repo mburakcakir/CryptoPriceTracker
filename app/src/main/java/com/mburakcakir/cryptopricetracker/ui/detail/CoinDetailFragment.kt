@@ -75,7 +75,7 @@ class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
     private fun setRefreshInterval() {
         val refreshInterval = binding.edtInterval.text.toString()
         repeatRequestByRefreshInterval(Integer.parseInt(refreshInterval))
-        requireContext() toast "All data and details will be refreshed every $refreshInterval seconds. "
+        requireContext() toast "All data and details will be refreshed every $refreshInterval seconds."
     }
 
     private fun repeatRequestByRefreshInterval(refreshInterval: Int) {

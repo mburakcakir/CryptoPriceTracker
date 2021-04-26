@@ -7,6 +7,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mburakcakir.cryptopricetracker.data.model.FavouriteCoinModel
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
+import com.mburakcakir.cryptopricetracker.util.Constants
 
 class FavouriteCoinsViewModel : BaseViewModel() {
 
@@ -19,9 +20,9 @@ class FavouriteCoinsViewModel : BaseViewModel() {
     private val favouriteCoinsList: MutableList<FavouriteCoinModel> = mutableListOf()
 
     private val db = Firebase.firestore
-        .collection("Cryptocurrency")
+        .collection(Constants.BASE_COLLECTION_NAME)
         .document(firebaseAuth.currentUser.uid)
-        .collection("listFavouriteCrypto")
+        .collection(Constants.DETAIL_COLLECTION_NAME)
 
     fun getAllFavourites() {
         db.get()

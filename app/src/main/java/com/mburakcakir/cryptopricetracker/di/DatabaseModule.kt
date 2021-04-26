@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.mburakcakir.cryptopricetracker.data.db.CryptoDatabase
 import com.mburakcakir.cryptopricetracker.data.db.dao.CryptoDao
+import com.mburakcakir.cryptopricetracker.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): CryptoDatabase =
-        Room.databaseBuilder(context, CryptoDatabase::class.java, "crypto.db")
+        Room.databaseBuilder(context, CryptoDatabase::class.java, Constants.DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
 
