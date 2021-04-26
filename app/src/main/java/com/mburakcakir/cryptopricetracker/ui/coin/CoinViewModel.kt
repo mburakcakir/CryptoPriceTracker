@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mburakcakir.cryptopricetracker.R
+import com.mburakcakir.cryptopricetracker.data.db.entity.CoinMarketEntity
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.data.repository.CoinRepository
 import com.mburakcakir.cryptopricetracker.ui.BaseViewModel
@@ -12,6 +13,7 @@ import com.mburakcakir.cryptopricetracker.util.Resource
 import com.mburakcakir.cryptopricetracker.util.Result
 import com.mburakcakir.cryptopricetracker.util.enums.Status
 import com.mburakcakir.cryptopricetracker.util.format
+import com.mburakcakir.cryptopricetracker.util.getCoinMarketEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -26,6 +28,9 @@ class CoinViewModel @Inject constructor(private val coinRepository: CoinReposito
     private val _allCoins = MutableLiveData<Resource<List<CoinMarketItem>>>()
     val allCoins: LiveData<Resource<List<CoinMarketItem>>> = _allCoins
 
+    private val _coinByParameter = MutableLiveData<Resource<List<CoinMarketEntity>>>()
+    val coinByParameter: LiveData<Resource<List<CoinMarketEntity>>> = _coinByParameter
+
     fun getCoinsByParameter(parameter: String) = viewModelScope.launch {
         coinRepository.getCoinsByParameter(parameter.format())
             .onStart {
@@ -35,7 +40,7 @@ class CoinViewModel @Inject constructor(private val coinRepository: CoinReposito
                 Log.v("errorGetCoinByParameter", it.message.toString())
             }
             .collect {
-                _allCoins.value = it
+                _coinByParameter.value = it
             }
     }
 
@@ -53,7 +58,9 @@ class CoinViewModel @Inject constructor(private val coinRepository: CoinReposito
     }
 
     fun insertAllCoins(listCrypto: List<CoinMarketItem>) = viewModelScope.launch {
-        coinRepository.insertAllCoins(listCrypto)
+        val coinEntityList = getCoinMarketEntity(listCrypto)
+
+        coinRepository.insertAllCoins(coinEntityList)
             .onStart {
                 _result.value = Result(loading = R.string.coin_loading)
             }

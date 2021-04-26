@@ -1,6 +1,8 @@
 package com.mburakcakir.cryptopricetracker.util
 
+import com.mburakcakir.cryptopricetracker.data.db.entity.CoinMarketEntity
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
+import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 
 
 fun String.formatUpdatedTime(): String {
@@ -41,4 +43,24 @@ fun setCoinDetail(coinDetails: CoinDetailItem): CoinDetailItem {
 
     return copiedDetail
 
+}
+
+fun getCoinMarketEntity(coinMarketItemList: List<CoinMarketItem>): MutableList<CoinMarketEntity> {
+    val databaseList = mutableListOf<CoinMarketEntity>()
+    coinMarketItemList.forEach {
+        val coinMarketEntity = CoinMarketEntity(
+            it.cryptoID,
+            it.currentPrice,
+            it.highestPrice24h,
+            it.cryptoImage,
+            it.lastUpdated,
+            it.lowestPrice24h,
+            it.name,
+            it.priceChange24h,
+            it.priceChangePercentage24h,
+            it.symbol
+        )
+        databaseList.add(coinMarketEntity)
+    }
+    return databaseList
 }

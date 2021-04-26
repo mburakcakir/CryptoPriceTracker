@@ -1,6 +1,7 @@
 package com.mburakcakir.cryptopricetracker.data.repository
 
 import com.mburakcakir.cryptopricetracker.data.db.dao.CryptoDao
+import com.mburakcakir.cryptopricetracker.data.db.entity.CoinMarketEntity
 import com.mburakcakir.cryptopricetracker.data.model.CoinDetailItem
 import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
 import com.mburakcakir.cryptopricetracker.data.network.CryptoService
@@ -42,7 +43,7 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertAllCoins(listCrypto: List<CoinMarketItem>) = flow {
+    override suspend fun insertAllCoins(listCrypto: List<CoinMarketEntity>) = flow {
         try {
             cryptoDao.insertAllCrypto(listCrypto)
             emit(Resource.Success(true))
@@ -52,7 +53,7 @@ class CoinRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getCoinsByParameter(parameter: String): Flow<Resource<List<CoinMarketItem>>> =
+    override suspend fun getCoinsByParameter(parameter: String): Flow<Resource<List<CoinMarketEntity>>> =
         flow {
             try {
                 emit(Resource.Success(cryptoDao.getCryptoByParameter(parameter)))

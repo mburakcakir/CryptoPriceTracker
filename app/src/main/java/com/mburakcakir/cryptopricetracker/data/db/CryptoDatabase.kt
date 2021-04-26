@@ -3,10 +3,10 @@ package com.mburakcakir.cryptopricetracker.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mburakcakir.cryptopricetracker.data.db.dao.CryptoDao
-import com.mburakcakir.cryptopricetracker.data.model.CoinMarketItem
+import com.mburakcakir.cryptopricetracker.data.db.entity.CoinMarketEntity
 
 @Database(
-    entities = [CoinMarketItem::class],
+    entities = [CoinMarketEntity::class],
     version = 2,
     exportSchema = false
 )
